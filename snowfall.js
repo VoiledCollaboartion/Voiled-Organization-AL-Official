@@ -95,8 +95,8 @@ class Snowfall {
             count = 100,
             minRadius = 10,
             maxRadius = 30,
-            minSpeed = 3,
-            maxSpeed = 10,
+            minSpeed = 0.2,
+            maxSpeed = 2,
             text = "❄",
             color = "#99ccff",
             zIndex = "1000"
