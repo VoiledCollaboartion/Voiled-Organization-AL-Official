@@ -80,7 +80,11 @@
       <!-- STORY TELLING LINE -->
   <div class="story-telling-line"></div>
   <img class="diamond" loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/8336f12aa5f7463102800ed71193d15d2d9dba82224c5b7fcbc30a11aa2126bd?"/>
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/8336f12aa5f7463102800ed71193d15d2d9dba82224c5b7fcbc30a11aa2126bd?"
+  />
+  <img class="arow" src="focus-arow.svg" alt="arow">
+
+
 
 
 
@@ -259,6 +263,8 @@
 
 
 
+     <!-- REVIEW AREA     REVIEW AREA     REVIEW AREA     REVIEW AREA -->
+
 <div class="review-area">
   <div class="review-border">
     <p class="review-h">Reviews</p>
@@ -266,11 +272,128 @@
   
   <div class="review-container">
     <div class="review-card">
-      <div class="test">g</div>
+      <div class="pfp-container">
+        <div class="frame">
+        <img class="review-icon" src="reviewer.png" alt="pfp">
+      </div>
+      </div>
+
+      <div class="reviewer-name-star">
+        <h1 class="reviewer-name">Erick Presply</h1>
+        <div>
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+        </div>
+      </div>
+      <div class="reviewer-message">
+        <p>
+          Lorem ipsum dolor sit amet consectetur. Ullamcorper egestas aliquam 
+          commodo faucibus cursus cursus augue. Scelerisque facilisis sit ac 
+          enim mauris sed vel ipsum morbi. Lorem ipsum dolor sit amet 
+          cursus cursus augue. 
+        </p>
+      </div>
     </div>
-    <div class="review-card"></div>
+
+
+
+    <!-- CARD TWO -->
+    <div class="review-card">
+      <div class="pfp-container">
+        <div class="frame">
+        <img class="review-icon" src="reviewer.png" alt="pfp">
+      </div>
+      </div>
+
+      <div class="reviewer-name-star">
+        <h1 class="reviewer-name">Erick Presply</h1>
+        <div>
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+        </div>
+      </div>
+      <div class="reviewer-message">
+        <p>
+          Lorem ipsum dolor sit amet consectetur. Ullamcorper egestas aliquam 
+          commodo faucibus cursus cursus augue. Scelerisque facilisis sit ac 
+          enim mauris sed vel ipsum morbi. Lorem ipsum dolor sit amet 
+          cursus cursus augue. 
+        </p>
+      </div>
+    </div>
   </div>
 </div>
+
+
+
+
+<!--       SIGN UP       SIGN UP       SIGN UP       SIGN UP  -->
+
+<div class="sign-up-area">
+  
+  <div class="sign-up">
+    <p class="sign-up-h" id="section3">Join us, and lets empower each other!</p>
+    <p class="sign-up-desc">
+      Together, we nurture ideas, celebrate milestones, and elevate
+      professional journeys. At Voiled Organization, your contributions are
+      recognized with milestone certificates, while our personalized
+      professional portfolios showcase your growth. Embrace a community
+      where support and collaboration pave the way to collective success.
+      Join us: let's thrive together!
+    </p>
+
+
+          <div class="sign-up-button-area">
+            <div class="sign-up-form">
+              <input type="text" placeholder="Email Address" id="fname" name="fname">
+              <button onclick="myFunction()" class="button">Sign up for Voiled</button>
+              <button class="join-dc">JOIN US
+                <img src="discord-icon.png"  alt="Discord Icon">
+              </button>
+            </div>
+          </div>
+
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const diamond = document.querySelector('.diamond');
+let scrollPosition = window.scrollY;
+
+function animateDiamond() {
+  const targetPosition = 320 + scrollPosition * 1.0001;
+  const currentPosition = parseFloat(getComputedStyle(diamond).top);
+  const distance = targetPosition - currentPosition;
+  const easing = distance * 0.09; // Adjust the easing factor for smoother movement
+
+  diamond.style.top = currentPosition + easing + 'px';
+
+  requestAnimationFrame(animateDiamond);
+}
+
+window.addEventListener('scroll', function() {
+  scrollPosition = window.scrollY;
+});
+
+animateDiamond();
+</script>
+
+
+
+
+
+
+
 
 
 
@@ -306,38 +429,11 @@
 
 
 
-    <div class="div-118">
-      <img
-        loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/e29083a963a8df453af851bbd8de64068afa0dd35a1be4c70cd0117510600813?"
-        class="img-29"
-      />
-      <div class="div-119">
-        <div class="div-120" id="section3">Sign up for Voiled</div>
-        <div class="div-121">
-          Together, we nurture ideas, celebrate milestones, and elevate
-          professional journeys. At Voiled Organization, your contributions are
-          recognized with milestone certificates, while our personalized
-          professional portfolios showcase your growth. Embrace a community
-          where support and collaboration pave the way to collective success.
-          Join us: let's thrive together!
-        </div>
 
 
-              <div class="div-124">
-                <div class="div-125">
-                  <div ><input type="text" id="fname" name="fname" style="font-size: 18pt; height: 75px; width:400; "> </div>
-                  <div class="div-127">
-                    <button onclick="myFunction()" class="button">Sign up</button></a></div>
-                </div>
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+
   <div class="div-131">
     <div class="div-132">
       <div class="div-133">
@@ -397,6 +493,7 @@
     </div>
   </div>
 </div>
+
 <script src="snowfall.js?v=1.0.0"></script>
 <script>
 function myFunction() {
