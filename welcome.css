@@ -10,7 +10,7 @@
 
   .body {
     background-color:#171717;
-    width: 100%;
+    overflow-x: hidden;
   }
   
     html {
@@ -96,6 +96,8 @@
     margin:8% 0 8% 0;
   } */
 
+
+
     .img {
       aspect-ratio: 0.72;
       object-fit: contain;
@@ -153,9 +155,8 @@
       }
       .hook-img{
         width: 800px; 
+        margin-top: -165px;
         overflow: hidden;
-        position: relative;
-        top: -165px;
       }
 
       .hook-buttons {
@@ -202,6 +203,28 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
         .about-us-container {
             width: 90%;
             background-color: #1c1c1c;
@@ -221,37 +244,28 @@
             color: #939393;
             white-space: nowrap;
             border-bottom: 3px solid #212121;
-           
-
-
             background-color: #191919;
             align-self: stretch;
             justify-content: center;
             align-items: start;
             font: 700 40px Poppins, sans-serif;
           }
-          @media (max-width: 1360px) {
-            .div-26 {
-              white-space: initial;
-              max-width: 100%;
-            }
-          }
-          .div-27 {
+         
+
+
+          .v-org-job-mission {
             align-self: center;
             margin-top: 51px;
             width: 100%;
             max-width: 1419px;
-          }
-          @media (max-width: 1360px) {
-            .div-27 {
-              max-width: 100%;
-              margin-top: 40px;
-            }
-          }
-          .div-28 {
-            gap: 20px;
+            background-color: #1B1DCD;
             display: flex;
+            flex-direction: row;
+
           }
+         
+
+      
           @media (max-width: 1360px) {
             .div-28 {
               flex-direction: column;
@@ -397,35 +411,6 @@
           }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     .div-40 {
     
 
@@ -478,6 +463,36 @@
       gap: 20px;
       display: flex;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     .review-area {
@@ -614,7 +629,7 @@
             display: flex;
             align-items: end;
             gap: 3px;
-            margin: 127px 250px 0 290px;
+            margin: 127px 0 0 290px;
             
           }
           
@@ -629,14 +644,14 @@
           .sign-up-h {
             color: var(--text-active);
             margin-left: -20px;
-            font: 700 80px/100% Poppins, sans-serif;
+            font: 700 70px Poppins, sans-serif;
           }
 
           
           .sign-up-desc {
             color: var(--text);
             font: 500 18px/32px Poppins, sans-serif;
-            margin-right: 10px;
+            margin-right: 400px;
           }
           
 
@@ -703,484 +718,8 @@
   box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.3); /* Inner shadow on hover */
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          .div-126 {
-            color: #888;
-            white-space: nowrap;
-            -radius: 5px;
-            box-shadow: 12px -12px 19.5px 0px rgba(0, 0, 0, 0.25);
-            background-color: #fff;
-            flex-grow: 1;
-            justify-content: center;
-            align-items: start;
-             20px 60px 20px 31px;
-            font: 600 25px Poppins, sans-serif;
-          }
-          @media (max-width: 1360px) {
-            .div-126 {
-              white-space: initial;
-              max-width: 100%;
-               0 20px;
-            }
-          }
-          .div-127 {
-            color: #cdcdcd;
-            align-self: start;
-            margin-top: 19px;
-            flex-grow: 1;
-            white-space: nowrap;
-            font: 600 25px Poppins, sans-serif;
-          }
-          @media (max-width: 1360px) {
-            .div-127 {
-              white-space: initial;
-            }
-          }
-          .img-30 {
-            aspect-ratio: 4.12;
-            object-fit: contain;
-            object-position: center;
-            width: 247px;
-            overflow: hidden;
-            align-self: end;
-            max-width: 100%;
-          }
-          .column-11 {
-            display: flex;
-            flex-direction: column;
-            line-height: normal;
-            width: 20%;
-            margin-left: 20px;
-          }
-          @media (max-width: 1360px) {
-            .column-11 {
-              width: 100%;
-            }
-          }
-
-
-          
-
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    .div-128 {
-      display: flex;
-      margin-top: 13px;
-      flex-grow: 1;
-      flex-direction: column;
-      align-items: center;
-    }
-    @media (max-width: 1360px) {
-      .div-128 {
-        margin-top: 34px;
-      }
-    }
-    .div-129 {
-      color: #cdcdcd;
-      white-space: nowrap;
-      font: 600 24px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-129 {
-        white-space: initial;
-      }
-    }
-    .div-130 {
-      -radius: 5px;
-      background-color: #1b1dcd;
-      align-self: stretch;
-      display: flex;
-      margin-top: 9px;
-      height: 60px;
-      flex-direction: column;
-    }
-    .div-131 {
-      -radius: 0px;
-      : 3px solid #212121;
-      background-color: #1c1c1c;
-      align-self: stretch;
-      display: flex;
-      width: 100%;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin: 0px 0 0px;
-       40px 60px;
-    }
-    @media (max-width: 1360px) {
-      .div-131 {
-        max-width: 100%;
-        margin: 0px 0;
-         0 0px;
-      }
-    }
-    .div-132 {
-      width: 100%;
-      max-width: 1325px;
-    }
-    @media (max-width: 1360px) {
-      .div-132 {
-        max-width: 100%;
-      }
-    }
-    .div-133 {
-      gap: 20px;
-      display: flex;
-    }
-    @media (max-width: 1360px) {
-      .div-133 {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0px;
-      }
-    }
-    .column-12 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: 67%;
-      margin-left: 0px;
-    }
-    @media (max-width: 1360px) {
-      .column-12 {
-        width: 100%;
-      }
-    }
-    .div-134 {
-      display: flex;
-      flex-grow: 1;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    @media (max-width: 1360px) {
-      .div-134 {
-        max-width: 100%;
-        margin-top: 40px;
-        flex-wrap: wrap;
-      }
-    }
-    .div-135 {
-      display: flex;
-      flex-grow: 1;
-      flex-basis: 0%;
-      flex-direction: column;
-    }
-    .div-136 {
-      color: #1b1dcd;
-      font: 600 20px Poppins, sans-serif;
-    }
-    .div-137 {
-      color: #acacac;
-      margin-top: 28px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-138 {
-      color: #acacac;
-      margin-top: 16px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-139 {
-      color: #acacac;
-      margin-top: 15px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-140 {
-      color: #acacac;
-      margin-top: 22px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-141 {
-      color: #acacac;
-      margin-top: 84px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-141 {
-        margin-top: 40px;
-      }
-    }
-    .div-142 {
-      align-self: start;
-      display: flex;
-      flex-basis: 0%;
-      flex-direction: column;
-    }
-    .div-143 {
-      color: #1b1dcd;
-      font: 600 20px Poppins, sans-serif;
-    }
-    .div-144 {
-      color: #acacac;
-      margin-top: 24px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-145 {
-      color: #acacac;
-      margin-top: 16px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-146 {
-      color: #acacac;
-      margin-top: 15px;
-      white-space: nowrap;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-146 {
-        white-space: initial;
-      }
-    }
-    .div-147 {
-      color: #acacac;
-      margin-top: 19px;
-      white-space: nowrap;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-147 {
-        white-space: initial;
-      }
-    }
-    .div-148 {
-      align-self: start;
-      display: flex;
-      flex-basis: 0%;
-      flex-direction: column;
-    }
-    .div-149 {
-      color: #1b1dcd;
-      white-space: nowrap;
-      font: 600 20px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-149 {
-        white-space: initial;
-      }
-    }
-    .div-150 {
-      color: #acacac;
-      margin-top: 29px;
-      white-space: nowrap;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-150 {
-        white-space: initial;
-      }
-    }
-    .div-151 {
-      color: #acacac;
-      margin-top: 10px;
-      white-space: nowrap;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-151 {
-        white-space: initial;
-      }
-    }
-    .div-152 {
-      color: #acacac;
-      margin-top: 44px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-152 {
-        margin-top: 40px;
-      }
-    }
-    .column-13 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: 33%;
-      margin-left: 20px;
-    }
-    @media (max-width: 1360px) {
-      .column-13 {
-        width: 100%;
-      }
-    }
-    .div-153 {
-    }
-    @media (max-width: 1360px) {
-      .div-153 {
-        margin-top: 40px;
-      }
-    }
-    .div-154 {
-      gap: 20px;
-      display: flex;
-    }
-    @media (max-width: 1360px) {
-      .div-154 {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0px;
-      }
-    }
-    .column-14 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: 63%;
-      margin-left: 0px;
-    }
-    @media (max-width: 1360px) {
-      .column-14 {
-        width: 100%;
-      }
-    }
-    .div-155 {
-      display: flex;
-      flex-direction: column;
-    }
-    @media (max-width: 1360px) {
-      .div-155 {
-        margin-top: 40px;
-      }
-    }
-    .div-156 {
-      color: #1b1dcd;
-      white-space: nowrap;
-      font: 600 20px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-156 {
-        white-space: initial;
-      }
-    }
-    .div-157 {
-      color: #acacac;
-      margin-top: 30px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-158 {
-      color: #acacac;
-      margin-top: 16px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-159 {
-      color: #acacac;
-      margin-top: 15px;
-      white-space: nowrap;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-159 {
-        white-space: initial;
-      }
-    }
-    .div-160 {
-      color: #acacac;
-      margin-top: 22px;
-      white-space: nowrap;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-160 {
-        white-space: initial;
-      }
-    }
-    .column-15 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: 37%;
-      margin-left: 20px;
-    }
-    @media (max-width: 1360px) {
-      .column-15 {
-        width: 100%;
-      }
-    }
-    .div-161 {
-      display: flex;
-      flex-grow: 1;
-      flex-direction: column;
-    }
-    @media (max-width: 1360px) {
-      .div-161 {
-        margin-top: 40px;
-      }
-    }
-    .div-162 {
-      color: #1b1dcd;
-      font: 600 20px Poppins, sans-serif;
-    }
-    .div-163 {
-      color: #acacac;
-      margin-top: 24px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-164 {
-      color: #acacac;
-      margin-top: 16px;
-      font: 400 15px Poppins, sans-serif;
-    }
-    .div-165 {
-      color: #acacac;
-      margin-top: 15px;
-      white-space: nowrap;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-165 {
-        white-space: initial;
-      }
-    }
-    .div-166 {
-      color: #acacac;
-      margin-top: 19px;
-      white-space: nowrap;
-      font: 400 15px Poppins, sans-serif;
-    }
-    @media (max-width: 1360px) {
-      .div-166 {
-        white-space: initial;
-      }
-    }
+.footer{
+  background-color: #1C1C1C;
+  width: 100%;
+  height: 250px;
+}
