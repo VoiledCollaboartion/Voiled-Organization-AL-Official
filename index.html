@@ -1,2724 +1,393 @@
+<!DOCTYPE html>
 
-<div class="div">
+
+  
   <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Snowfall demo</title>
+    <title>Voiled</title>
     <meta name="description"
           content="This page is a demo of Snowfall.js, a JavaScript script that creates a realistic and customizable snowfall effect on your website. You can adjust various parameters of the snowfall, such as the number, size, speed, color and text of the snowflakes. You can also see the source code and documentation of the script on GitHub."/>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet">
+    <link rel="stylesheet" href="welcome.css">
 </head>
-<body>
+
+
+
+<body class="body">
 
 <script crossorigin="anonymous"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="snowfall.js"></script>
-<script>
-    // Создаем объект с параметрами по умолчанию
-    let defaultParams = {
-        count: "1", // number of snowflakes
-        minRadius: "10", // minimum radius of a snowflake in pixels
-        maxRadius: "10", // maximum radius of a snowflake in pixels
-        minSpeed: "1", // minimum speed of a snowflake in pixels per frame
-        maxSpeed: "3", // maximum speed of a snowflake in pixels per frame
-        text: "❄", // text for a snowflake (can be any symbol or text)
-        color: "#99ccff", // color of a snowflake in HEX format
-        zIndex: "1000" // z-index for the snowflakes canvas
-    };
+  <script>
+      // Создаем объект с параметрами по умолчанию
+      let defaultParams = {
+          count: "1", // number of snowflakes
+          minRadius: "10", // minimum radius of a snowflake in pixels
+          maxRadius: "10", // maximum radius of a snowflake in pixels
+          minSpeed: "100", // minimum speed of a snowflake in pixels per frame
+          maxSpeed: "100", // maximum speed of a snowflake in pixels per frame
+          text: "❄", // text for a snowflake (can be any symbol or text)
+          color: "#99ccff", // color of a snowflake in HEX format
+          zIndex: "1000" // z-index for the snowflakes canvas
+      };
 
-    // Создаем снегопад с параметрами по умолчанию
-    let snowfall = new Snowfall();
+      // Создаем снегопад с параметрами по умолчанию
+      let snowfall = new Snowfall();
 
-    // Находим форму на странице
-    let form = document.getElementById("form");
-    // Находим кнопку "Default" на странице
-    let defaultButton = document.getElementById("default");
+      // Находим форму на странице
+      let form = document.getElementById("form");
+      // Находим кнопку "Default" на странице
+      let defaultButton = document.getElementById("default");
 
-    // Добавляем обработчик события на форму
-    form.addEventListener("submit", event => {
-        // Отменяем действие по умолчанию (отправку формы)
-        event.preventDefault();
-        // Создаем пустой объект для новых параметров
-        let newParams = {};
-        // Перебираем все элементы input в форме
-        for (let input of form.elements) {
-            // Если элемент имеет атрибут name, то добавляем его в объект новых параметров
-            if (input.name) {
-                newParams[input.name] = input.value;
-            }
-        }
+      // Добавляем обработчик события на форму
+      form.addEventListener("submit", event => {
+          // Отменяем действие по умолчанию (отправку формы)
+          event.preventDefault();
+          // Создаем пустой объект для новых параметров
+          let newParams = {};
+          // Перебираем все элементы input в форме
+          for (let input of form.elements) {
+              // Если элемент имеет атрибут name, то добавляем его в объект новых параметров
+              if (input.name) {
+                  newParams[input.name] = input.value;
+              }
+          }
 
-        // Удаляем старый снегопад
-        snowfall.destroy();
-        // Создаем новый снегопад с новыми параметрами
-        snowfall = new Snowfall(newParams);
-    });
+          // Удаляем старый снегопад
+          snowfall.destroy();
+          // Создаем новый снегопад с новыми параметрами
+          snowfall = new Snowfall(newParams);
+      });
 
-    // Добавляем обработчик события на кнопку "Default"
-    defaultButton.addEventListener("click", () => {
-        // Удаляем старый снегопад
-        snowfall.destroy();
-        // Создаем новый снегопад с параметрами по умолчанию
-        snowfall = new Snowfall();
-        // Перебираем все элементы input в форме
-        for (let input of form.elements) {
-            // Если элемент имеет атрибут name, то устанавливаем его значение равным значению по умолчанию
-            if (input.name) {
-                input.value = defaultParams[input.name];
-            }
-        }
-    });
-</script>
+      // Добавляем обработчик события на кнопку "Default"
+      defaultButton.addEventListener("click", () => {
+          // Удаляем старый снегопад
+          snowfall.destroy();
+          // Создаем новый снегопад с параметрами по умолчанию
+          snowfall = new Snowfall();
+          // Перебираем все элементы input в форме
+          for (let input of form.elements) {
+              // Если элемент имеет атрибут name, то устанавливаем его значение равным значению по умолчанию
+              if (input.name) {
+                  input.value = defaultParams[input.name];
+              }
+          }
+      });
+  </script>
 
+<div class="phone-no">
+  <p>We do not support this size yet.</p>
+</div>
 
-  <div class="div-2">
-    <div class="div-3">
-      <div class="div-4">
-        <img
-          loading="lazy"
-          srcset="img_5.png"
-          class="img"
-        />
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/6f09fa939c0ecb19651f61fc7dcfc3cd3989d002054d97fc8132566faf259a65?"
-          class="img-2"
-        />
-        <img
-          loading="lazy"
-          srcset="img_1.png"
-          class="img-3"
-        />
-      </div>
-      <div class="div-5">
-        <img
-          loading="lazy"
-          srcset="img_4.png"
-          class="img-4"
-        />
-        <div class="div-6">
-          <div class="div-7">
-            <div class="div-8" id="section4">Welcome</div>
-            <div class="div-9"></div>
-          </div>
-
-          <div class="div-10"><a href="" class="button">Home</a></div>
-<!--          <div class="div-11"><a href="" class="button">News</a></div>-->
-          <div class="div-12"><a href="#section2" class="button">Join Us</a></div>
-          <div class="div-13"><a href="#section1" class="button">About Us</a></div>
-          <div class="div-14"><a href="#section3" class="button">Sign up</a></div>
-        </div>
-      </div>
-    </div>
-    <div class="div-15">
+<!-- NAVIGATION BAR TOP -->
+  <div class="nav-container">
+    <div class="nav-top">
       <img
+        class="voiled-txt-icon"
         loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/8336f12aa5f7463102800ed71193d15d2d9dba82224c5b7fcbc30a11aa2126bd?"
-        class="img-5"
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/6f09fa939c0ecb19651f61fc7dcfc3cd3989d002054d97fc8132566faf259a65?"
       />
-
-      <div class="div-16" >
-        <img src="img.png"><br><br><br><br>
-        Instantly Hiring Anybody
-        <br />
-        With Any Skill!
-      </div>
-    </div>
-
-    <div class="div-17" id="section2">
-      Voiled Organization: A community of freelancers and skilled individuals
-      turning ideas into real-world victories. No heavy responsibilities or
-      scary interviews. Gain experience with your skills comfortably!
-    </div>
-    <div class="div-18">
-      <div class="div-19"><a href="https://discord.gg/D7HnyfGQ" class="button">Join us</a></div>
-      <div class="div-a"><a href="#section1" class="button1">Learn More</a></div>
-    </div>
-
-  </div>
-<!--  <div class="div-22">-->
-<!--    <div class="div-23">-->
-<!--      <div class="div-24">Promotional Video</div>-->
-<!--      <img-->
-<!--        loading="lazy"-->
-<!--        srcset="..."-->
-<!--        class="img-6"-->
-<!--      />-->
-<!--    </div>-->
-    <div class="div-25" id="section1">
-      <div class="div-26">About Us</div>
-      <div class="div-27">
-        <div class="div-28">
-          <div class="column">
-            <div class="div-29">
-              <div class="div-30">VOILED ORGANIZATION</div>
-              <div class="div-31">
-                We're a dynamic community dedicated to transforming ideas into
-                triumphs. Our platform is a creative haven, uniting diverse
-                minds for innovation and collaboration.
-              </div>
-            </div>
-          </div>
-          <div class="column-2">
-            <div class="div-32">
-              <div class="div-33">YOUR JOB INSIDE VOILED</div>
-              <div class="div-34">
-                Your job will be an Idea Creator for professionals to build.
-                Revenue will be shared between you Idea Creators, and the
-                professionals, where you’ll mingle with them.
-              </div>
-            </div>
-          </div>
-          <div class="column-3">
-            <div class="div-35">
-              <div class="div-36">OUR MISSION</div>
-              <div class="div-37">
-                Our goal is to empower individuals to bring ideas to life.
-                Through collaboration and recognition, we aim to create a
-                thriving space where innovative concepts flourish into impactful
-                realities.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="div-38">
-        You can also be the professional!
-        <br />
-      </div>
-      <div class="div-39">
-        Professional jobs we instantly accept: Web Developing, Web Designing,
-        Marketing (All Types), SEO Optimizing, Photo & Video Editing, Content
-        writing, App developing, AI Experts, and UI/UX Designers. If you’re
-        looking to master your skills here, Join us and get hired instantly!
-      </div>
-    </div>
-    <div class="div-40">
-      <div class="div-41">
-        <div class="div-42">Benefits</div>
-
-      </div>
-      <div class="div-44">
-        <div class="div-45">
-          <div class="column-4">
-            <div class="div-46">
-              <span style="font-weight: 500; color: rgba(88, 88, 88, 1)">
-                At Voiled Organization
-              </span>
-              <span style="font-weight: 500; color: rgba(88, 88, 88, 1)">
-                , we stand out as a community dedicated to nurturing everybody’s
-                skill, creativity, and collaboration. By joining us, you’ll be
-                receiving:
-              </span>
-              <ul>
-                <li>
-                  <span style="font-weight: 500; color: rgba(88, 88, 88, 1)">
-                    Opportunities & Career boost: As you master your skills in
-                    Voiled while gaining revenue, you’ll be getting better Job
-                    and Business opportunities with our vast array of
-                    connections.
-                  </span>
-                </li>
-                <li>
-                  <span style="font-weight: 500; color: rgba(88, 88, 88, 1)">
-                    Portfolio Enhancements & Certificates for every skill:
-                    You’ll be able to show off your works for Voiled in the
-                    special parts of your portfolio, signifying how good your
-                    performance is at a serious working organization. You’ll be
-                    able to nurture your skills and have something to show for
-                    it, inside an organization where creativity and
-                    collaboration thrives. You’ll be experiencing how it feels
-                    exactly to be inside the job / business you want to have.
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="column-5">
-
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="">
-
-      <div class="div-50">
-        <div class="div-51">
-          <div class="div-52">
-            <div class="column-6">
-              <div class="div-53">
-                <div class="div-54">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="div-67">
-          <div class="div-68"></div>
-          <div class="div-69"></div>
-          <div class="div-70"></div>
-          <div class="div-71"></div>
-        </div>
-      </div>
-    </div>
-    <div class="div-72">
-      <div class="div-73">Questions..? We have some answers.</div>
-      <div class="div-74">
-
-          <div class="column-8">
-            <div class="div-76">
-              <div class="div-77">
-                <div class="div-78">
-                  <div class=""></div>
-
-              </div>
-              <div class="div-93">
-                <div class="div-94">
-                  <div class="div-95"></div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="column-9">
-            <div class="div-97">
-              <div class="div-98">
-                <div class="div-99">
-                  <div class="div-100"></div>
-
-                </div>
-              </div>
-              <div class="div-102">
-                <div class="div-103">
-
-              </div>
-
-
-
-
-
-              <div class="div-114">
-
-
-                  <p class="div-38">Join our discord server and get everything sorted</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="div-118">
-      <img
-        loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/e29083a963a8df453af851bbd8de64068afa0dd35a1be4c70cd0117510600813?"
-        class="img-29"
-      />
-      <div class="div-119">
-        <div class="div-120" id="section3">Sign up for Voiled</div>
-        <div class="div-121">
-          Together, we nurture ideas, celebrate milestones, and elevate
-          professional journeys. At Voiled Organization, your contributions are
-          recognized with milestone certificates, while our personalized
-          professional portfolios showcase your growth. Embrace a community
-          where support and collaboration pave the way to collective success.
-          Join us: let's thrive together!
-        </div>
-
-
-              <div class="div-124">
-                <div class="div-125">
-                  <div ><input type="text" id="fname" name="fname" style="font-size: 18pt; height: 75px; width:400; "> </div>
-                  <div class="div-127">
-                    <button onclick="myFunction()" class="button">Sign up</button></a></div>
-                </div>
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
+      <div class="nav-buttons">
+        <a href="index.html" class="button" style="color: var(--text-active);">Welcome</a>
+        <a href="#section2" class="button">Join Us</a>
+        <a href="#section1" class="button">About Us</a>
+        <a href="#section3" class="button">Sign up</a>
       </div>
     </div>
   </div>
-  <div class="div-131">
-    <div class="div-132">
-      <div class="div-133">
-        <div class="column-12">
-          <div class="div-134">
-            <div class="div-135">
-              <div class="div-136">Quick Link</div>
-              <div class="div-137"><a href="#section4">Home</a> </div>
-<!--              <div class="div-138">News</div>-->
-              <div class="div-139">Our Team</div>
-              <div class="div-140">About Us</div>
-              <div class="div-141">
-                © 2023
-                <a href="https://idk" target="_blank">Voiled</a>
-              </div>
-            </div>
-            <div class="div-142">
-              <div class="div-143">Help</div>
-              <div class="div-144">How to work</div>
-              <div class="div-145">Lost Account</div>
-              <div class="div-146">Change password</div>
-              <div class="div-147">Report</div>
-            </div>
-            <div class="div-148">
-              <div class="div-149">Account</div>
-              <div class="div-150">Settings</div>
-              <div class="div-151">Profile</div>
-              <div class="div-152">Upgrade</div>
-            </div>
-          </div>
+
+
+       <!-- STORY TELLING LINE -->
+       <div class="story-telling-line"></div>
+       <img class="diamond" loading="lazy"
+             src="https://cdn.builder.io/api/v1/image/assets/TEMP/8336f12aa5f7463102800ed71193d15d2d9dba82224c5b7fcbc30a11aa2126bd?"
+       />
+       <img class="arow" src="focus-arow.svg" alt="arow">
+     
+     
+
+
+
+  <!-- Section 1, Hook Section -->
+  <div class="hook-section-container">
+
+    <div class="hook-text"> <!-- HookText -->
+      <p>
+      Instantly Hiring Anybody <br/>
+      With Any Skill! 
+      <div class="hook-text-shadow"></div>
+      </p>
+      <div class="hook-desc" id="section2"> <!-- HookDescription -->
+        Voiled Organization: A community of freelancers and skilled individuals
+        turning ideas into real-world victories. No heavy responsibilities or
+        scary interviews. Gain experience with your skills comfortably!
+      </div>
+      <div class="hook-buttons">
+        <button color:"white">Join Us</button>
+        <button>Learn More</button>
+      </div>
+    </div>
+    <div class="hook-img-container"> <!-- HookImg --> 
+      <img class="hook-img" src="grad-icon-s1.png" alt="Image">
+    </div>
+  </div>
+
+  <!-- Section 2, Promotional Video Section -->
+
+  <!-- <div class="div-22">
+    <div class="div-23">
+    <div class="div-24">Promotional Video</div>
+      <img src="video-promotion.png" alt=""> -->
+
+      
+
+<!-- Section 3, About Us Section -->
+
+
+<div class="about-us-container" id="section1">
+
+  <div class="about-h">About Us</div>
+
+  <div class="v-org-job-mission">
+   
+      <div>
+          <h1>VOILED ORGANIZATION</h1>
+          <p>
+            We're a dynamic community dedicated to transforming ideas into
+            triumphs. Our platform is a creative haven, uniting diverse
+            minds for innovation and collaboration.
+          </p>
+      </div>
+      <div>
+          <h1>YOUR JOB INSIDE VOILED</h1>
+          <p>
+            Your job will be an Idea Creator for professionals to build.
+            Revenue will be shared between you Idea Creators, and the
+            professionals, where you’ll mingle with them.
+          </p>
+      </div>
+      <div>
+          <h1>OUR MISSION</h1>
+          <p>
+            Our goal is to empower individuals to bring ideas to life.
+            Through collaboration and recognition, we aim to create a
+            thriving space where innovative concepts flourish into impactful
+            realities.
+          </p>
+      </div>
+  </div>
+
+
+  <div class="focus-area">
+    <h1> You can also be the professional! </h1>
+    <p> Professional jobs we instantly accept: Web Developing, Web Designing, 
+      Marketing (All Types), SEO Optimizing, Photo & Video Editing, Content
+      writing, App developing, AI Experts, and UI/UX Designers. If you’re
+      looking to master your skills here, Join us and get hired instantly!
+    </p>
+  </div>
+</div>
+
+
+
+
+
+<div class="benefits-area">
+  <div class="benefits-h-container">
+    <h1>Benefits</h1>
+  </div>
+
+  <div class="benefits-container">
+        <div class="benefits-desc">
+            <h5> At Voiled Organization, </h5>
+            we stand out as a community dedicated to nurturing everybody’s
+            skill, creativity, and collaboration. By joining us, you’ll be
+            receiving:
+          <ul>
+            <li>
+              <span style="font-weight: 500; color: rgba(88, 88, 88, 1)">
+                Opportunities & Career boost: As you master your skills in
+                Voiled while gaining revenue, you’ll be getting better Job
+                and Business opportunities with our vast array of
+                connections.
+              </span>
+            </li>
+            <li>
+              <span style="font-weight: 500; color: rgba(88, 88, 88, 1)">
+                Portfolio Enhancements & Certificates for every skill:
+                You’ll be able to show off your works for Voiled in the
+                special parts of your portfolio, signifying how good your
+                performance is at a serious working organization. You’ll be
+                able to nurture your skills and have something to show for
+                it, inside an organization where creativity and
+                collaboration thrives. You’ll be experiencing how it feels
+                exactly to be inside the job / business you want to have.
+              </span>
+            </li>
+          </ul>
         </div>
-        <div class="column-13">
-          <div class="div-153">
-            <div class="div-154">
-              <div class="column-14">
-                <div class="div-155">
-                  <div class="div-156">Contributors</div>
-                  <div class="div-157">Home</div>
-                  <div class="div-158">News</div>
-                  <div class="div-159">Our Team</div>
-                  <div class="div-160">About Us</div>
-                </div>
-              </div>
-              <div class="column-15">
-                <div class="div-161">
-                  <div class="div-162">Help</div>
-                  <div class="div-163">How to work</div>
-                  <div class="div-164">Lost Account</div>
-                  <div class="div-165">Change password</div>
-                  <div class="div-166">Report</div>
-                </div>
-              </div>
+  </div>
+</div>
+
+
+
+
+
+<!--        REVIEW AREA     REVIEW AREA     REVIEW AREA     REVIEW AREA -->
+
+<div class="review-area">
+  <div class="review-border">
+    <p class="review-h">Reviews</p>
+  </div>
+  
+  <div class="review-container">
+    <div class="review-card">
+      <div class="pfp-container">
+        <div class="frame">
+        <img class="review-icon" src="reviewer.png" alt="pfp">
+      </div>
+      </div>
+
+      <div class="reviewer-name-star">
+        <h1 class="reviewer-name">Erick Presply</h1>
+        <div>
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+        </div>
+      </div>
+      <div class="reviewer-message">
+        <p>
+          Lorem ipsum dolor sit amet consectetur. Ullamcorper egestas aliquam 
+          commodo faucibus cursus cursus augue. Scelerisque facilisis sit ac 
+          enim mauris sed vel ipsum morbi. Lorem ipsum dolor sit amet 
+          cursus cursus augue. 
+        </p>
+      </div>
+    </div>
+
+
+
+    <!-- CARD TWO -->
+    <div class="review-card">
+      <div class="pfp-container">
+        <div class="frame">
+        <img class="review-icon" src="reviewer.png" alt="pfp">
+      </div>
+      </div>
+
+      <div class="reviewer-name-star">
+        <h1 class="reviewer-name">Erick Presply</h1>
+        <div>
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+          <img class="reviewer-star" src="review-star.svg" alt="review">
+        </div>
+      </div>
+      <div class="reviewer-message">
+        <p>
+          Lorem ipsum dolor sit amet consectetur. Ullamcorper egestas aliquam 
+          commodo faucibus cursus cursus augue. Scelerisque facilisis sit ac 
+          enim mauris sed vel ipsum morbi. Lorem ipsum dolor sit amet 
+          cursus cursus augue. 
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--       SIGN UP       SIGN UP       SIGN UP       SIGN UP  -->
+
+<div class="sign-up-area">
+  
+  <div class="sign-up">
+    <p class="sign-up-h" id="section3">Join us, and lets empower each other!</p>
+    <p class="sign-up-desc">
+      Together, we nurture ideas, celebrate milestones, and elevate
+      professional journeys. At Voiled Organization, your contributions are
+      recognized with milestone certificates, while our personalized
+      professional portfolios showcase your growth. Embrace a community
+      where support and collaboration pave the way to collective success.
+      Join us: let's thrive together!
+    </p>
+
+
+          <div class="sign-up-button-area">
+            <div class="sign-up-form">
+              <input type="text" placeholder="Email Address" id="fname" name="fname">
+              <button onclick="myFunction()" class="button">Sign up for Voiled</button>
+              <button class="join-dc">JOIN US
+                <img src="discord-icon.png"  alt="Discord Icon">
+              </button>
             </div>
           </div>
+
+        </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="footer">
+
+</div>
+
+
+
+             <!-- DIAMOND MOVEMENTS SCRIPT -->
+<script>
+const diamond = document.querySelector('.diamond');
+let scrollPosition = window.scrollY;
+
+function animateDiamond() {
+  const screenWidth = window.innerWidth;
+  const maxScreenWidth = 1820;
+  const startPositionLessThan1820 = 240;
+  const startPositionMoreThan1820 = 320;
+  let targetPosition;
+
+  if (screenWidth <= maxScreenWidth) {
+    targetPosition = startPositionLessThan1820 + scrollPosition * 1.0001;
+  } else {
+    targetPosition = startPositionMoreThan1820 + scrollPosition * 1.0001;
+  }
+
+  const currentPosition = parseFloat(getComputedStyle(diamond).top);
+  const distance = targetPosition - currentPosition;
+  const easing = distance * 0.09; // Adjust the easing factor for smoother movement
+
+  diamond.style.top = currentPosition + easing + 'px';
+
+  requestAnimationFrame(animateDiamond);
+}
+
+window.addEventListener('scroll', function () {
+  scrollPosition = window.scrollY;
+});
+
+window.addEventListener('resize', function () {
+  requestAnimationFrame(animateDiamond);
+});
+
+animateDiamond();
+
+
+</script>
+
 <script src="snowfall.js?v=1.0.0"></script>
 <script>
 function myFunction() {
   alert("Further details will be shared on your Registered email id");
 }
 </script>
-<style>
-
-a:hover {
-  background-color: #171717;
-}
-  .body {
-
-  background-color:#171717;
-}
-
-  html {
-  scroll-behavior: smooth;
-}
-  .button {
-  background-color: #1a1ccb;
-  : none;
-  color: white;
-   15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 25px;
-  width: 120px;
-  height: 30px;
-
-}
-  .button1 {
-  background-color: #1a1ccb;
-  : none;
-  color: white;
-   15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 25px;
-  width: 130px;
-  height: 50px;
-
-}
-  .div {
-    background-color: #171717;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-
-  }
-  .div-2 {
-    display: flex;
-    width: 100%;
-    max-width: 1558px;
-    flex-direction: column;
-  }
-  @media (max-width: 1360px) {
-    .div-2 {
-      max-width: 100%;
-    }
-  }
-  .div-3 {
-    align-self: stretch;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-3 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-4 {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 0px;
-  }
-  .img {
-    aspect-ratio: 0.72;
-    object-fit: contain;
-    object-position: center;
-    width: 65px;
-    overflow: hidden;
-    align-self: start;
-    max-width: 100%;
-  }
-  .img-2 {
-    aspect-ratio: 8.25;
-    object-fit: contain;
-    object-position: center;
-    width: 231px;
-    overflow: hidden;
-    align-self: start;
-    margin-top: 80px;
-  }
-  @media (max-width: 1360px) {
-    .img-2 {
-      margin-top: 40px;
-    }
-  }
-  .img-3 {
-    aspect-ratio: 0.71;
-    object-fit: contain;
-    object-position: center;
-    width: 65px;
-    overflow: hidden;
-    margin-top: 31px;
-    max-width: 100%;
-  }
-  .div-5 {
-    align-self: center;
-    display: flex;
-    align-items: start;
-    gap: 0px;
-    margin: auto 0;
-  }
-  @media (max-width: 1360px) {
-    .div-5 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .img-4 {
-    aspect-ratio: 0.71;
-    object-fit: contain;
-    object-position: center;
-    width: 65px;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .div-6 {
-    align-items: start;
-    display: flex;
-    margin-top: 62px;
-    justify-content: space-between;
-    gap: 20px;
-     1px 0;
-  }
-  @media (max-width: 1360px) {
-    .div-6 {
-      max-width: 100%;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
-  }
-  .div-7 {
-    display: flex;
-    margin-top: 11px;
-    flex-grow: 1;
-    flex-basis: 0%;
-    flex-direction: column;
-  }
-  .div-8 {
-    color: #fff;
-    white-space: nowrap;
-    font: 500 25px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-8 {
-      white-space: initial;
-    }
-  }
-  .div-9 {
-    background-color: #1a1ccb;
-    align-self: center;
-    margin-top: 8px;
-    width: 46px;
-    height: 2px;
-  }
-  .div-10 {
-    color: #acacac;
-    font: 500 25px Poppins, sans-serif;
-  }
-  .div-11 {
-    color: #acacac;
-    font: 500 25px Poppins, sans-serif;
-  }
-  .div-12 {
-    color: #acacac;
-    font: 500 25px Poppins, sans-serif;
-  }
-  .div-13 {
-    color: #acacac;
-    font: 500 25px Poppins, sans-serif;
-  }
-  .div-14 {
-    color: #acacac;
-    white-space: nowrap;
-    -radius: 5px;
-    : 2.3px solid #acacac;
-    flex-grow: 1;
-    justify-content: center;
-     11px 16px;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-14 {
-      white-space: initial;
-    }
-  }
-  .div-15 {
-    align-self: start;
-    display: flex;
-    width: 930px;
-    max-width: 100%;
-    align-items: start;
-    justify-content: space-between;
-    gap: 20px;
-    margin: 186px 0 0 76px;
-  }
-  @media (max-width: 1360px) {
-    .div-15 {
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
-  }
-  .img-5 {
-    aspect-ratio: 0.93;
-    object-fit: contain;
-    object-position: center;
-    width: 50px;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .div-16 {
-    color: #ededed;
-    align-self: end;
-    margin-top: 41px;
-    flex-grow: 1;
-    flex-basis: auto;
-    font: 700 64px/79px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-16 {
-      max-width: 100%;
-      font-size: 40px;
-      line-height: 54px;
-      margin-top: 40px;
-    }
-  }
-  .div-17 {
-    color: rgba(84, 84, 84, 0.6);
-    align-self: start;
-    width: 837px;
-    max-width: 100%;
-    margin: 39px 0 0 189px;
-    font: 500 21px Poppins, sans-serif;
-  }
-  .div-18 {
-    align-self: center;
-    display: flex;
-    margin-top: 52px;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-18 {
-      margin-top: 40px;
-    }
-  }
-  .div-19 {
-    color: #fff;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  .div-20 {
-    color: #acacac;
-    white-space: nowrap;
-    -radius: 10px;
-    : 3px solid #acacac;
-    align-self: stretch;
-    flex-grow: 1;
-    justify-content: center;
-     17px 14px;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-20 {
-      white-space: initial;
-    }
-  }
-  .div-21 {
-    -radius: 10px;
-    background-color: #1b1dcd;
-    align-self: center;
-    display: flex;
-    margin-top: 7px;
-    width: 150px;
-    height: 50px;
-    flex-direction: column;
-  }
-  .div-22 {
-    align-self: stretch;
-    display: flex;
-    margin-top: 121px;
-    width: 100%;
-    flex-direction: column;
-     0 19px 0 80px;
-  }
-  @media (max-width: 1360px) {
-    .div-22 {
-      max-width: 100%;
-      padding-left: 20px;
-      margin-top: 40px;
-    }
-  }
-  .div-23 {
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #1c1c1c;
-    align-self: stretch;
-    display: flex;
-    margin-left: 10px;
-    padding-bottom: 25px;
-    flex-direction: column;
-  }
-  @media (max-width: 1360px) {
-    .div-23 {
-      max-width: 100%;
-    }
-  }
-  .div-24 {
-    color: #d1d1d1;
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #191919;
-    justify-content: center;
-    align-items: start;
-     22px 60px 22px 44px;
-    font: 700 40px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-24 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .img-6 {
-    aspect-ratio: 1.78;
-    object-fit: contain;
-    object-position: center;
-    width: 1084px;
-    overflow: hidden;
-    align-self: start;
-    max-width: 100%;
-    margin: 43px 0 0 55px;
-  }
-  @media (max-width: 1360px) {
-    .img-6 {
-      margin-top: 40px;
-    }
-  }
-  .div-25 {
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #1c1c1c;
-    align-self: stretch;
-    display: flex;
-    padding-bottom: 7px;
-    flex-direction: column;
-    margin: 111px 0 0 10px;
-  }
-  @media (max-width: 1360px) {
-    .div-25 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-26 {
-    color: #939393;
-    white-space: nowrap;
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #191919;
-    align-self: stretch;
-    justify-content: center;
-    align-items: start;
-     31px 60px 31px 33px;
-    font: 700 40px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-26 {
-      white-space: initial;
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-27 {
-    align-self: center;
-    margin-top: 51px;
-    width: 100%;
-    max-width: 1419px;
-  }
-  @media (max-width: 1360px) {
-    .div-27 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-28 {
-    gap: 20px;
-    display: flex;
-  }
-  @media (max-width: 1360px) {
-    .div-28 {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0px;
-    }
-  }
-  .column {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 33%;
-    margin-left: 0px;
-  }
-  @media (max-width: 1360px) {
-    .column {
-      width: 100%;
-    }
-  }
-  .div-29 {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-  }
-  @media (max-width: 1360px) {
-    .div-29 {
-      margin-top: 40px;
-    }
-  }
-  .div-30 {
-    color: #939393;
-    white-space: nowrap;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-30 {
-      white-space: initial;
-    }
-  }
-  .div-31 {
-    color: #5c5c5c;
-    text-align: center;
-    align-self: stretch;
-    font: 400 20px/30px Poppins, sans-serif;
-  }
-  .column-2 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 33%;
-    margin-left: 20px;
-  }
-  @media (max-width: 1360px) {
-    .column-2 {
-      width: 100%;
-    }
-  }
-  .div-32 {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-  }
-  @media (max-width: 1360px) {
-    .div-32 {
-      margin-top: 40px;
-    }
-  }
-  .div-33 {
-    color: #939393;
-    white-space: nowrap;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-33 {
-      white-space: initial;
-    }
-  }
-  .div-34 {
-    color: #5c5c5c;
-    text-align: center;
-    align-self: stretch;
-    font: 400 20px/30px Poppins, sans-serif;
-  }
-  .column-3 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 35%;
-    margin-left: 20px;
-  }
-  @media (max-width: 1360px) {
-    .column-3 {
-      width: 100%;
-    }
-  }
-  .div-35 {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-  }
-  @media (max-width: 1360px) {
-    .div-35 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-36 {
-    color: #939393;
-    white-space: nowrap;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-36 {
-      white-space: initial;
-    }
-  }
-  .div-37 {
-    color: #5c5c5c;
-    text-align: center;
-    align-self: stretch;
-    font: 400 20px/30px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-37 {
-      max-width: 100%;
-    }
-  }
-  .div-38 {
-    color: #fff;
-    text-align: center;
-    font-feature-settings: "clig" off, "liga" off;
-    align-self: center;
-    margin-top: 148px;
-    max-width: 473px;
-    font: 700 28px/45px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-38 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-39 {
-    color: #fff;
-    text-align: center;
-    font-feature-settings: "clig" off, "liga" off;
-    align-self: center;
-    margin-top: 16px;
-    max-width: 930px;
-    font: 500 16px/26px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-39 {
-      max-width: 100%;
-    }
-  }
-  .div-40 {
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #1c1c1c;
-    align-self: stretch;
-    display: flex;
-    padding-bottom: 46px;
-    flex-direction: column;
-    margin: 112px 0 0 10px;
-  }
-  @media (max-width: 1360px) {
-    .div-40 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-41 {
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #191919;
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
-    gap: 20px;
-     12px 77px;
-  }
-  @media (max-width: 1360px) {
-    .div-41 {
-      max-width: 100%;
-      flex-wrap: wrap;
-       0 20px;
-    }
-  }
-  .div-42 {
-    color: #939393;
-    font: 700 40px Poppins, sans-serif;
-  }
-  .div-43 {
-    color: #939393;
-    align-self: stretch;
-    width: 244px;
-    font: 700 40px Poppins, sans-serif;
-  }
-  .div-44 {
-    align-self: center;
-    margin-top: 34px;
-    width: 100%;
-    max-width: 1454px;
-  }
-  @media (max-width: 1360px) {
-    .div-44 {
-      max-width: 100%;
-    }
-  }
-  .div-45 {
-    gap: 20px;
-    display: flex;
-  }
-  @media (max-width: 1360px) {
-    .div-45 {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0px;
-    }
-  }
-  .column-4 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 81%;
-    margin-left: 0px;
-  }
-  @media (max-width: 1360px) {
-    .column-4 {
-      width: 100%;
-    }
-  }
-  .div-46 {
-    color: #585858;
-    font: 900 20px/35px Inter, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-46 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .column-5 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 19%;
-    margin-left: 20px;
-  }
-  @media (max-width: 1360px) {
-    .column-5 {
-      width: 100%;
-    }
-  }
-  .div-47 {
-    color: #505050;
-    text-align: center;
-    font: 700 20px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-47 {
-      margin-top: 40px;
-    }
-  }
-  . {
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #1c1c1c;
-    align-self: stretch;
-    display: flex;
-    padding-bottom: 34px;
-    flex-direction: column;
-    margin: 112px 0 0 10px;
-  }
-  @media (max-width: 1360px) {
-    . {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-49 {
-    color: #939393;
-    width: 514px;
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #191919;
-    align-items: start;
-     13px 60px 25px 22px;
-    font: 700 40px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-49 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-50 {
-    display: flex;
-    margin-top: 52px;
-    padding-left: 78px;
-    flex-direction: column;
-  }
-  @media (max-width: 1360px) {
-    .div-50 {
-      max-width: 100%;
-      padding-left: 20px;
-      margin-top: 40px;
-    }
-  }
-  .div-51 {
-  }
-  @media (max-width: 1360px) {
-    .div-51 {
-      max-width: 100%;
-    }
-  }
-  .div-52 {
-    gap: 20px;
-    display: flex;
-  }
-  @media (max-width: 1360px) {
-    .div-52 {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0px;
-    }
-  }
-  .column-6 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 61%;
-    margin-left: 0px;
-  }
-  @media (max-width: 1360px) {
-    .column-6 {
-      width: 100%;
-    }
-  }
-  .div-53 {
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #191919;
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-     19px 80px 0 27px;
-  }
-  @media (max-width: 1360px) {
-    .div-53 {
-      max-width: 100%;
-      margin-top: 40px;
-       0 20px;
-    }
-  }
-  .div-54 {
-    align-self: start;
-    display: flex;
-    gap: 19px;
-  }
-  .div-55 {
-    stroke-width: 4px;
-    -radius: 50%;
-    display: flex;
-    width: 67px;
-    height: 67px;
-    flex-direction: column;
-  }
-  .div-56 {
-    align-self: start;
-    display: flex;
-    margin-top: 14px;
-    flex-grow: 1;
-    flex-basis: 0%;
-    flex-direction: column;
-  }
-  .div-57 {
-    color: #939393;
-    font-feature-settings: "clig" off, "liga" off;
-    white-space: nowrap;
-    font: 600 20px/160% Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-57 {
-      white-space: initial;
-    }
-  }
-  .div-58 {
-    display: flex;
-    margin-top: 4px;
-    justify-content: space-between;
-    gap: 8px;
-     0 1px;
-  }
-  .img-7 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-8 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-9 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-10 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-11 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-12 {
-    aspect-ratio: 0.96;
-    object-fit: contain;
-    object-position: center;
-    width: 44px;
-    overflow: hidden;
-    align-self: start;
-    margin-top: 12px;
-    max-width: 100%;
-  }
-  .div-59 {
-    color: #454545;
-    font-feature-settings: "clig" off, "liga" off;
-    z-index: 1;
-    max-width: 633px;
-    margin: 19px 0 -50px;
-    font: 400 16px/26px Inter, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-59 {
-      max-width: 100%;
-      margin-bottom: 10px;
-    }
-  }
-  .column-7 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 39%;
-    margin-left: 20px;
-  }
-  @media (max-width: 1360px) {
-    .column-7 {
-      width: 100%;
-    }
-  }
-  .div-60 {
-    -radius: 5px 0px 0px 5px;
-    -top: 3px solid #212121;
-    -bottom: 3px solid #212121;
-    -left: 3px solid #212121;
-    background-color: #191919;
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: end;
-    width: 100%;
-     20px 80px 0 0;
-  }
-  @media (max-width: 1360px) {
-    .div-60 {
-      max-width: 100%;
-      margin-top: 40px;
-      padding-right: 20px;
-    }
-  }
-  .div-61 {
-    align-self: start;
-    display: flex;
-    margin-left: 30px;
-    gap: 19px;
-  }
-  @media (max-width: 1360px) {
-    .div-61 {
-      margin-left: 10px;
-    }
-  }
-  .div-62 {
-    stroke-width: 4px;
-    -radius: 50%;
-    display: flex;
-    width: 67px;
-    height: 67px;
-    flex-direction: column;
-  }
-  .div-63 {
-    align-self: center;
-    display: flex;
-    flex-grow: 1;
-    flex-basis: 0%;
-    flex-direction: column;
-    margin: auto 0;
-  }
-  .div-64 {
-    color: #939393;
-    font-feature-settings: "clig" off, "liga" off;
-    white-space: nowrap;
-    font: 600 20px/160% Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-64 {
-      white-space: initial;
-    }
-  }
-  .div-65 {
-    display: flex;
-    margin-top: 4px;
-    justify-content: space-between;
-    gap: 8px;
-     0 1px;
-  }
-  .img-13 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-14 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-15 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-16 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-17 {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 22px;
-    fill: #dfb300;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .img-18 {
-    aspect-ratio: 0.96;
-    object-fit: contain;
-    object-position: center;
-    width: 44px;
-    overflow: hidden;
-    align-self: start;
-    margin-top: 12px;
-    max-width: 100%;
-  }
-  .div-66 {
-    color: #454545;
-    font-feature-settings: "clig" off, "liga" off;
-    z-index: 1;
-    max-width: 404px;
-    margin: 18px 16px -24px 0;
-    font: 400 16px/26px Inter, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-66 {
-      margin: 0 10px 10px 0;
-    }
-  }
-  .div-67 {
-    align-self: center;
-    display: flex;
-    width: 113px;
-    max-width: 100%;
-    gap: 7px;
-    margin: 50px 0 0 39px;
-  }
-  @media (max-width: 1360px) {
-    .div-67 {
-      margin-top: 40px;
-    }
-  }
-  .div-68 {
-    -radius: 25px;
-    background-color: #1b1dcd;
-    display: flex;
-    height: 23px;
-    flex-direction: column;
-    flex: 1;
-  }
-  .div-69 {
-    -radius: 25px;
-    : 3px solid #1b1dcd;
-    display: flex;
-    height: 23px;
-    flex-direction: column;
-    flex: 1;
-  }
-  .div-70 {
-    -radius: 25px;
-    : 3px solid #1b1dcd;
-    display: flex;
-    height: 23px;
-    flex-direction: column;
-    flex: 1;
-  }
-  .div-71 {
-    -radius: 25px;
-    : 3px solid #1b1dcd;
-    display: flex;
-    height: 23px;
-    flex-direction: column;
-    flex: 1;
-  }
-  .div-72 {
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #1c1c1c;
-    align-self: stretch;
-    display: flex;
-    padding-bottom: 50px;
-    flex-direction: column;
-    margin: 102px 0 0 10px;
-  }
-  @media (max-width: 1360px) {
-    .div-72 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-73 {
-    color: #939393;
-    -radius: 5px;
-    : 3px solid #212121;
-    background-color: #191919;
-    align-items: start;
-     14px 60px 26px 22px;
-    font: 700 40px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-73 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-74 {
-    margin: 51px 45px 30px;
-  }
-  @media (max-width: 1360px) {
-    .div-74 {
-      max-width: 100%;
-      margin: 40px 10px 0 0;
-    }
-  }
-  .div-75 {
-    gap: 20px;
-    display: flex;
-  }
-  @media (max-width: 1360px) {
-    .div-75 {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0px;
-    }
-  }
-  .column-8 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 50%;
-    margin-left: 0px;
-  }
-  @media (max-width: 1360px) {
-    .column-8 {
-      width: 100%;
-    }
-  }
-  .div-76 {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-  }
-  @media (max-width: 1360px) {
-    .div-76 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-77 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-77 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-78 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-78 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  . {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    . {
-      max-width: 100%;
-    }
-  }
-  .div-80 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  . {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .div-81 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    margin-top: 12px;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-81 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-82 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-82 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-83 {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-83 {
-      max-width: 100%;
-    }
-  }
-  .div-84 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  .img-20 {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .div-85 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    margin-top: 12px;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-85 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-86 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-86 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-87 {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-87 {
-      max-width: 100%;
-    }
-  }
-  .div-88 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  .img-21 {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .div-89 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    margin-top: 12px;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-89 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-90 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-90 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-91 {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-91 {
-      max-width: 100%;
-    }
-  }
-  .div-92 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  .img-22 {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .div-93 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    margin-top: 12px;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-93 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-94 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-94 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-95 {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-95 {
-      max-width: 100%;
-    }
-  }
-  .div-96 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  .img-23 {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .column-9 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 50%;
-    margin-left: 20px;
-  }
-  @media (max-width: 1360px) {
-    .column-9 {
-      width: 100%;
-    }
-  }
-  .div-97 {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-  }
-  @media (max-width: 1360px) {
-    .div-97 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-98 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-98 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-99 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-99 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-100 {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-100 {
-      max-width: 100%;
-    }
-  }
-  .div-101 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  .img-24 {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .div-102 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    margin-top: 12px;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-102 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-103 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-103 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-104 {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-104 {
-      max-width: 100%;
-    }
-  }
-  .div-105 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  .img-25 {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .div-106 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    margin-top: 12px;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-106 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-107 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-107 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-108 {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-108 {
-      max-width: 100%;
-    }
-  }
-  .div-109 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  .img-26 {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .div-110 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    margin-top: 12px;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-110 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-111 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-111 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-112 {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-112 {
-      max-width: 100%;
-    }
-  }
-  .div-113 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  .img-27 {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .div-114 {
-    -radius: 16px;
-    background-color: #191919;
-    display: flex;
-    margin-top: 12px;
-    flex-direction: column;
-    justify-content: center;
-     24px;
-  }
-  @media (max-width: 1360px) {
-    .div-114 {
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-115 {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-115 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-116 {
-    color: #545454;
-    letter-spacing: 0.24px;
-    flex-grow: 1;
-    margin: auto 0;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-116 {
-      max-width: 100%;
-    }
-  }
-  .div-117 {
-    justify-content: center;
-    align-items: center;
-    -radius: 25px;
-    background-color: #939393;
-    align-self: stretch;
-    display: flex;
-    aspect-ratio: 1.0222222222222221;
-    flex-direction: column;
-    width: 46px;
-    height: 46px;
-     0 13px;
-  }
-  .img-28 {
-    aspect-ratio: 2;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    stroke-width: 3px;
-    stroke: #191919;
-    overflow: hidden;
-  }
-  .div-118 {
-    align-self: start;
-    display: flex;
-    align-items: end;
-    gap: 3px;
-    margin: 127px 0 0 58px;
-  }
-  @media (max-width: 1360px) {
-    .div-118 {
-      max-width: 100%;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
-  }
-  .img-29 {
-    aspect-ratio: 0.63;
-    object-fit: contain;
-    object-position: center;
-    width: 84px;
-    stroke-width: 5px;
-    stroke: #000af1;
-    overflow: hidden;
-    margin-top: 243px;
-    max-width: 100%;
-  }
-  @media (max-width: 1360px) {
-    .img-29 {
-      margin-top: 40px;
-    }
-  }
-  .div-119 {
-    align-self: stretch;
-    display: flex;
-    flex-grow: 1;
-    flex-basis: 0%;
-    flex-direction: column;
-  }
-  @media (max-width: 1360px) {
-    .div-119 {
-      max-width: 100%;
-    }
-  }
-  .div-120 {
-    color: #fff;
-    font: 700 100px/100% Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-120 {
-      max-width: 100%;
-      font-size: 40px;
-    }
-  }
-  .div-121 {
-    color: #585858;
-    margin-top: 66px;
-    font: 500 18px/32px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-121 {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  .div-122 {
-    margin-top: 38px;
-  }
-  @media (max-width: 1360px) {
-    .div-122 {
-      max-width: 100%;
-    }
-  }
-  .div-123 {
-    gap: 20px;
-    display: flex;
-  }
-  @media (max-width: 1360px) {
-    .div-123 {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0px;
-    }
-  }
-  .column-10 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 80%;
-    margin-left: 0px;
-  }
-  @media (max-width: 1360px) {
-    .column-10 {
-      width: 100%;
-    }
-  }
-  .div-124 {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-  }
-  @media (max-width: 1360px) {
-    .div-124 {
-      max-width: 100%;
-      margin-top: 21px;
-    }
-  }
-  .div-125 {
-    z-index: 1;
-    display: flex;
-    justify-content: space-between;
-    gap: 0px;
-  }
-  @media (max-width: 1360px) {
-    .div-125 {
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-  }
-  .div-126 {
-    color: #888;
-    white-space: nowrap;
-    -radius: 5px;
-    box-shadow: 12px -12px 19.5px 0px rgba(0, 0, 0, 0.25);
-    background-color: #fff;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: start;
-     20px 60px 20px 31px;
-    font: 600 25px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-126 {
-      white-space: initial;
-      max-width: 100%;
-       0 20px;
-    }
-  }
-  .div-127 {
-    color: #cdcdcd;
-    align-self: start;
-    margin-top: 19px;
-    flex-grow: 1;
-    white-space: nowrap;
-    font: 600 25px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-127 {
-      white-space: initial;
-    }
-  }
-  .img-30 {
-    aspect-ratio: 4.12;
-    object-fit: contain;
-    object-position: center;
-    width: 247px;
-    overflow: hidden;
-    align-self: end;
-    max-width: 100%;
-  }
-  .column-11 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 20%;
-    margin-left: 20px;
-  }
-  @media (max-width: 1360px) {
-    .column-11 {
-      width: 100%;
-    }
-  }
-  .div-128 {
-    display: flex;
-    margin-top: 13px;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-  }
-  @media (max-width: 1360px) {
-    .div-128 {
-      margin-top: 34px;
-    }
-  }
-  .div-129 {
-    color: #cdcdcd;
-    white-space: nowrap;
-    font: 600 24px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-129 {
-      white-space: initial;
-    }
-  }
-  .div-130 {
-    -radius: 5px;
-    background-color: #1b1dcd;
-    align-self: stretch;
-    display: flex;
-    margin-top: 9px;
-    height: 60px;
-    flex-direction: column;
-  }
-  .div-131 {
-    -radius: 0px;
-    : 3px solid #212121;
-    background-color: #1c1c1c;
-    align-self: stretch;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0px 0 0px;
-     40px 60px;
-  }
-  @media (max-width: 1360px) {
-    .div-131 {
-      max-width: 100%;
-      margin: 0px 0;
-       0 0px;
-    }
-  }
-  .div-132 {
-    width: 100%;
-    max-width: 1325px;
-  }
-  @media (max-width: 1360px) {
-    .div-132 {
-      max-width: 100%;
-    }
-  }
-  .div-133 {
-    gap: 20px;
-    display: flex;
-  }
-  @media (max-width: 1360px) {
-    .div-133 {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0px;
-    }
-  }
-  .column-12 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 67%;
-    margin-left: 0px;
-  }
-  @media (max-width: 1360px) {
-    .column-12 {
-      width: 100%;
-    }
-  }
-  .div-134 {
-    display: flex;
-    flex-grow: 1;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  @media (max-width: 1360px) {
-    .div-134 {
-      max-width: 100%;
-      margin-top: 40px;
-      flex-wrap: wrap;
-    }
-  }
-  .div-135 {
-    display: flex;
-    flex-grow: 1;
-    flex-basis: 0%;
-    flex-direction: column;
-  }
-  .div-136 {
-    color: #1b1dcd;
-    font: 600 20px Poppins, sans-serif;
-  }
-  .div-137 {
-    color: #acacac;
-    margin-top: 28px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-138 {
-    color: #acacac;
-    margin-top: 16px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-139 {
-    color: #acacac;
-    margin-top: 15px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-140 {
-    color: #acacac;
-    margin-top: 22px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-141 {
-    color: #acacac;
-    margin-top: 84px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-141 {
-      margin-top: 40px;
-    }
-  }
-  .div-142 {
-    align-self: start;
-    display: flex;
-    flex-basis: 0%;
-    flex-direction: column;
-  }
-  .div-143 {
-    color: #1b1dcd;
-    font: 600 20px Poppins, sans-serif;
-  }
-  .div-144 {
-    color: #acacac;
-    margin-top: 24px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-145 {
-    color: #acacac;
-    margin-top: 16px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-146 {
-    color: #acacac;
-    margin-top: 15px;
-    white-space: nowrap;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-146 {
-      white-space: initial;
-    }
-  }
-  .div-147 {
-    color: #acacac;
-    margin-top: 19px;
-    white-space: nowrap;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-147 {
-      white-space: initial;
-    }
-  }
-  .div-148 {
-    align-self: start;
-    display: flex;
-    flex-basis: 0%;
-    flex-direction: column;
-  }
-  .div-149 {
-    color: #1b1dcd;
-    white-space: nowrap;
-    font: 600 20px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-149 {
-      white-space: initial;
-    }
-  }
-  .div-150 {
-    color: #acacac;
-    margin-top: 29px;
-    white-space: nowrap;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-150 {
-      white-space: initial;
-    }
-  }
-  .div-151 {
-    color: #acacac;
-    margin-top: 10px;
-    white-space: nowrap;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-151 {
-      white-space: initial;
-    }
-  }
-  .div-152 {
-    color: #acacac;
-    margin-top: 44px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-152 {
-      margin-top: 40px;
-    }
-  }
-  .column-13 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 33%;
-    margin-left: 20px;
-  }
-  @media (max-width: 1360px) {
-    .column-13 {
-      width: 100%;
-    }
-  }
-  .div-153 {
-  }
-  @media (max-width: 1360px) {
-    .div-153 {
-      margin-top: 40px;
-    }
-  }
-  .div-154 {
-    gap: 20px;
-    display: flex;
-  }
-  @media (max-width: 1360px) {
-    .div-154 {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0px;
-    }
-  }
-  .column-14 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 63%;
-    margin-left: 0px;
-  }
-  @media (max-width: 1360px) {
-    .column-14 {
-      width: 100%;
-    }
-  }
-  .div-155 {
-    display: flex;
-    flex-direction: column;
-  }
-  @media (max-width: 1360px) {
-    .div-155 {
-      margin-top: 40px;
-    }
-  }
-  .div-156 {
-    color: #1b1dcd;
-    white-space: nowrap;
-    font: 600 20px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-156 {
-      white-space: initial;
-    }
-  }
-  .div-157 {
-    color: #acacac;
-    margin-top: 30px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-158 {
-    color: #acacac;
-    margin-top: 16px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-159 {
-    color: #acacac;
-    margin-top: 15px;
-    white-space: nowrap;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-159 {
-      white-space: initial;
-    }
-  }
-  .div-160 {
-    color: #acacac;
-    margin-top: 22px;
-    white-space: nowrap;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-160 {
-      white-space: initial;
-    }
-  }
-  .column-15 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: 37%;
-    margin-left: 20px;
-  }
-  @media (max-width: 1360px) {
-    .column-15 {
-      width: 100%;
-    }
-  }
-  .div-161 {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-  }
-  @media (max-width: 1360px) {
-    .div-161 {
-      margin-top: 40px;
-    }
-  }
-  .div-162 {
-    color: #1b1dcd;
-    font: 600 20px Poppins, sans-serif;
-  }
-  .div-163 {
-    color: #acacac;
-    margin-top: 24px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-164 {
-    color: #acacac;
-    margin-top: 16px;
-    font: 400 15px Poppins, sans-serif;
-  }
-  .div-165 {
-    color: #acacac;
-    margin-top: 15px;
-    white-space: nowrap;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-165 {
-      white-space: initial;
-    }
-  }
-  .div-166 {
-    color: #acacac;
-    margin-top: 19px;
-    white-space: nowrap;
-    font: 400 15px Poppins, sans-serif;
-  }
-  @media (max-width: 1360px) {
-    .div-166 {
-      white-space: initial;
-    }
-  }
-</style>
