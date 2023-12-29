@@ -78,6 +78,9 @@
       });
   </script>
 
+<div class="phone-no">
+  <p>We do not support this size yet.</p>
+</div>
 
 <!-- NAVIGATION BAR TOP -->
   <div class="nav-container">
@@ -348,7 +351,18 @@ const diamond = document.querySelector('.diamond');
 let scrollPosition = window.scrollY;
 
 function animateDiamond() {
-  const targetPosition = 320 + scrollPosition * 1.0001;
+  const screenWidth = window.innerWidth;
+  const maxScreenWidth = 1820;
+  const startPositionLessThan1820 = 240;
+  const startPositionMoreThan1820 = 320;
+  let targetPosition;
+
+  if (screenWidth <= maxScreenWidth) {
+    targetPosition = startPositionLessThan1820 + scrollPosition * 1.0001;
+  } else {
+    targetPosition = startPositionMoreThan1820 + scrollPosition * 1.0001;
+  }
+
   const currentPosition = parseFloat(getComputedStyle(diamond).top);
   const distance = targetPosition - currentPosition;
   const easing = distance * 0.09; // Adjust the easing factor for smoother movement
@@ -358,11 +372,17 @@ function animateDiamond() {
   requestAnimationFrame(animateDiamond);
 }
 
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
   scrollPosition = window.scrollY;
 });
 
+window.addEventListener('resize', function () {
+  requestAnimationFrame(animateDiamond);
+});
+
 animateDiamond();
+
+
 </script>
 
 <script src="snowfall.js?v=1.0.0"></script>

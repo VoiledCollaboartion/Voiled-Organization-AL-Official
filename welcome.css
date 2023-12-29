@@ -15,16 +15,40 @@
 }
 @media screen and (max-width: 1820px ){
   :root {
-    --fs-1000: 50px;
-    --fs-800: 30px;
-    --fs-600: 20px;
-    --fs-400: 15px;
+    --fs-1000: 40px;
+    --fs-800: 25px;
+    --fs-600: 15px;
+    --fs-400: 10px;
   }
 }
 
+.phone-no{
+  display: none;
+  position: absolute;
+  height: 2000px;
+  width: 100%;
+  z-index: 1000;
+  background-color: #171717;
+}
+.phone-no p{
+  padding: 30px;
+  font-size: 3em;
+  color: white;
+}
+
+@media screen and (max-width: 1010px){
+  .phone-no{
+    display: block;
+  }
+  body{
+    overflow: hidden;
+  }
+}
+
+
   .body {
     background-color:#171717;
-    overflow-x: hidden;
+    overflow-y: hidden;
   }
   
     html {
@@ -99,34 +123,8 @@
     width: 230px;
     overflow: hidden;
     max-width: 100%;
+    z-index: -2;
   }
-
-    @media screen and (max-width: 1820px ){ /*  Imgs Break point  */
-    .nav-top img{
-      width: 10rem;
-    }
-    .story-telling-line{
-      position: absolute;
-      top: 370px;
-      left: 120px;
-      border-left: solid 5px var(--sec-color);
-      width: 5px;
-      height: 2190px;
-    }
-    .diamond {
-      position: absolute;
-      width: 40px;
-      top: 320px;
-      left: 102px;
-    }
-    .arow {
-      top: 2555px;
-      left: 100px;
-      width: 120px;
-      overflow: hidden;
-      max-width: 100%;
-    }
-}
 
 
     /* .img {
@@ -150,16 +148,22 @@
 
    
     .hook-section-container{
-        width: 90%;
+        width: calc(100% - 200px);
         margin: 10% 0 0 200px;
         display: flex;
         justify-content: space-between;
 
+
     }
     .hook-text {
-        width: fit-content;
+        max-width: 800px;
         color: #ededed;
         font: 700 var(--fs-1000) Poppins, sans-serif;
+    }
+    @media screen and (max-width: 1820px ){
+      .hook-text{
+        max-width: 520px;
+      }
     }
     .hook-text-shadow{
         position: relative;
@@ -174,8 +178,7 @@
     .hook-desc {
         /* color: rgba(84, 84, 84, 0.6); */
         color: var(--text-gray);
-        width: 90%;
-        font: 500 var(--fs-400) Poppins, sans-serif;
+        font: 500 var(--fs-600) Poppins, sans-serif;
       }
 
       .hook-img-container {
@@ -226,6 +229,51 @@
             color: var(--text-active);
             box-shadow: inset 0 0 0 2px var(--text-active);
         }
+        
+    @media screen and (max-width: 1820px ){ /*  Imgs Break point  */
+      .nav-top img{
+        width: 10rem;
+      }
+      .hook-section-container{
+        width: calc(100% - 130px);
+      }
+      .story-telling-line{
+        position: absolute;
+        top: 370px;
+        left: 80px;
+        border-left: solid 5px var(--sec-color);
+        width: 5px;
+        height: 2000px;
+      }
+      .diamond {
+        position: absolute;
+        width: 40px;
+        top: 20px;
+        left: 60px;
+      }
+      .arow {
+        top: 2370px;
+        left: 60px;
+        width: 120px;
+        overflow: hidden;
+        max-width: 100%;
+      }
+      .hook-section-container{
+        margin: 10% 0 0 130px;
+      }
+      .hook-img-container {
+        margin-top: -70px;
+        width: 600px;
+        overflow: hidden;
+      }
+      .hook-img{
+        width: 600px; 
+        margin-top: -100px;
+        overflow: hidden;
+      }
+
+  }
+  
 
 
         .about-us-container {
@@ -262,8 +310,8 @@
 
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
-            gap: var(--fs-400);
+            justify-content: center;
+            gap: var(--fs-600);
           }
           .v-org-job-mission h1 {
             color: #939393;
@@ -272,9 +320,9 @@
             text-align: center;
           }
           .v-org-job-mission p{
+            max-width: 300px;
             color: #5c5c5c;
             text-align: center;
-            align-self: stretch;
             font: 400 var(--fs-400) Poppins, sans-serif;
           }
 
@@ -506,6 +554,7 @@
             color: var(--text);
             font: 500 var(--fs-600) Poppins, sans-serif;
             margin-right: 400px;
+            max-width: 1800px;
           }
           
 
@@ -524,11 +573,11 @@
             .sign-up-form input{
               background-color: rgb(255, 255, 255);
               width: 40%;
-              height: 60px;
+              height: 40px;
               border: white 0px transparent;
               border-radius: 5px 0 0px 5px;
 
-              font: 700 25px Poppins, sans-serif;
+              font: 700 20px Poppins, sans-serif;
               padding-left: 20px;       
               color: #888;     
 
