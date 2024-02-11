@@ -1,0 +1,13 @@
+# settings
+JSON_FILE = "user_info.json"  # File to store user data
+TOKEN = "" # Input bot token
+PREFIX = "/"
+
+# Input appropriate IDs and contents.
+WELCOME_CHANNEL_ID = 1198917938183421982
+VERIFICATION_CHANNEL_ID = 1198917980323598388
+RULES_CHANNEL_ID = 0
+CHAT_CHANNEL_ID = 1198917963206635601
+VERIFIED_ROLE_NAME = "Verified"
+UNVERIFIED_ROLE_NAME = "Unverified"
+PREMIUM_ROLE_NAME = "Verified"
