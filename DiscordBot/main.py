@@ -1,8 +1,8 @@
+import asyncio
+import os
+
 import discord
 from discord.ext import commands
-import os
-import asyncio
-
 
 from setup import *
 
@@ -36,6 +36,3 @@ async def main():
 
 
 asyncio.run(main())
-
-
-# coded by doyletony
