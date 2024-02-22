@@ -7,6 +7,7 @@ from discord import (
     Interaction,
     TextChannel,
     app_commands,
+    Member,
 )
 
 
@@ -22,6 +23,10 @@ class Say(commands.Cog):
 
     @say.command(
         name="message", description="Sends message to specified channel. (Admin only)"
+    )
+    @app_commands.describe(
+        channel="What channel should I send this message to?",
+        message="Input message content."
     )
     async def message(
         self, interaction: Interaction, channel: discord.TextChannel, message: str
@@ -45,12 +50,18 @@ class Say(commands.Cog):
         name="embed",
         description="Sends embedded message to specified channel. (Admin only)",
     )
+    @app_commands.describe(
+        channel="What channel should I send this embedded message to?",
+        header="Input header content.",
+        message="Input message content.",
+        color_name="Input colour of embed. []red, green, blue] (Default: Green)"
+    )
     async def embed(
         self,
         interaction: Interaction,
+        channel: TextChannel,
         header: str,
         message: str,
-        channel: TextChannel,
         color_name: str = "green",
     ):
         if not interaction.user.guild_permissions.administrator:
@@ -97,18 +108,22 @@ class Say(commands.Cog):
         name="dm",
         description="Sends a direct message or to specified member. (Admin only)",
     )
-    async def DM(self, interaction: Interaction, user: discord.Member, message: str):
+    @app_commands.describe(
+        member="Which member should I send private message to?",
+        message="Input message content."
+    )
+    async def DM(self, interaction: Interaction, member: Member, message: str):
         if not interaction.user.guild_permissions.administrator:
             return await interaction.response.send_message(
                 "You don't have permission to use this command.", ephemeral=True
             )
 
         # Send the message to the user via direct message
-        await user.send(message)
+        await member.send(message)
 
         # Send response to the user indicating that the message was sent
         await interaction.response.send_message(
-            f"Message sent to {user.display_name} successfully!", ephemeral=True
+            f"Message sent to {member.display_name} successfully!", ephemeral=True
         )
 
 

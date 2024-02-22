@@ -1,27 +1,15 @@
-import discord
-from discord.ext import commands
-import os
-import json
 import asyncio
-
-from discord import (
-    Embed,
-    Interaction,
-    app_commands,
-)
-
+import sqlite3
 import sys
 
+import discord
+from discord import Attachment, Embed, Interaction, app_commands
+from discord.ext import commands
+
 sys.path.append("setup")
-from setup import JSON_FILE, PREMIUM_ROLE_NAME
+from setup import PREMIUM_ROLE_NAME
 
-user_info = {}
-
-
-# Load user data from JSON file on bot startup
-if os.path.exists(JSON_FILE):
-    with open(JSON_FILE, "r") as file:
-        user_info = json.load(file)
+pdb_path = "databases/portfolios.db"
 
 
 class Portfolio(commands.Cog):
@@ -30,6 +18,8 @@ class Portfolio(commands.Cog):
         bot,
     ):
         self.bot = bot
+        self.conn = sqlite3.connect(pdb_path)
+        self.cursor = self.conn.cursor()
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -37,7 +27,19 @@ class Portfolio(commands.Cog):
 
     portfolio = app_commands.Group(name="portfolio", description="Portfolio")
 
-    @portfolio.command(name="create", description="Portfolio")
+    @portfolio.command(name="create", description="Create a portfolio.")
+    @app_commands.describe(
+        full_name="Input your full name.",
+        professional_skill="What's your professional skill?",
+        key_skills="What are your key skills? (Separate each skill with a comma.)",
+        experience="How many years of experience do you have in this profession?",
+        about_me="Add a bio.",
+        github="Add a link to your GitHub profile.",
+        x="Add a link to your 𝕏 profile.",
+        upwork="Add a link to your Upwork profile.",
+        project="Upload a project.",
+
+    )
     async def create(
         self,
         interaction: Interaction,
@@ -47,175 +49,203 @@ class Portfolio(commands.Cog):
         experience: str,
         about_me: str,
         github: str = None,
-        twitter: str = None,
+        x: str = None,
         upwork: str = None,
+        project: Attachment = None,
     ):
-        # Split the string of key skills into a list
-        key_skills_list = [skill.strip() for skill in key_skills.split(",")]
-
-        # Check if the user has the required role
-        required_role = discord.utils.get(
-            interaction.guild.roles, name=PREMIUM_ROLE_NAME
-        )
-        if (
-            required_role not in interaction.user.roles
-            or not interaction.user.guild_permissions.administrator
-        ):
-            return await interaction.response.send_message(
-                "You don't have permission to use this command.", ephemeral=True
-            )
-
-        # Store user information
-        user_id = str(interaction.user.id)
-        user_data = user_info.get(user_id)
-        if user_data:
-            await interaction.response.send_message(
-                "You already have a portfolio. Use /portfolio_edit to edit.",
-                ephemeral=True,
-            )
-            return
-
-        profile_pic_url = interaction.user.avatar.url
-        user_info[user_id] = {
-            "full_name": full_name,
-            "user_name": interaction.user.name,
-            "profile_pic_url": interaction.user.avatar.url,
-            "professional_skill": professional_skill,
-            "key_skills": key_skills_list,
-            "experience": experience,
-            "about_me": about_me,
-            "github": github,
-            "twitter": twitter,
-            "upwork": upwork,
-            # Add more information here later
-        }
-
-        # Write user data to JSON file
-        with open(JSON_FILE, "w") as file:
-            json.dump(user_info, file)
-
-        await interaction.response.send_message(
-            f"Portfolio saved! Use */portfolio_show* to show portfolio.", ephemeral=True
-        )
-
-    @portfolio.command(name="upload_project", description="Upload a project photo")
-    async def upload_project(self, interaction: Interaction):
-        # Check if the user has the required role
-        required_role = discord.utils.get(
-            interaction.guild.roles, name=PREMIUM_ROLE_NAME
-        )
-        if (
-            required_role not in interaction.user.roles
-            or not interaction.user.guild_permissions.administrator
-        ):
-            return await interaction.response.send_message(
-                "You don't have permission to use this command.", ephemeral=True
-            )
-
-        await interaction.response.send_message("Upload your project.", ephemeral=True)
-
         try:
-            # Wait for the user to upload a photo
-            message = await self.bot.wait_for(
-                "message",
-                check=lambda m: m.author == interaction.user and m.attachments,
-                timeout=60,
+
+            # Create portfolio table
+            self.cursor.execute(
+                """CREATE TABLE IF NOT EXISTS users_portfolio (
+                        user_id INTEGER PRIMARY KEY,
+                        full_name TEXT,
+                        professional_skill TEXT,
+                        key_skills TEXT,
+                        experience TEXT,
+                        about_me TEXT,
+                        github TEXT,
+                        x TEXT,
+                        upwork TEXT,
+                        project_url TEXT
             )
 
-            # Assuming the user uploads only one photo, we'll take the first attachment
-            attachment = message.attachments[0]
-            photo_url = attachment.url
 
-            # Update the user's information with the photo URL
-            user_id = str(interaction.user.id)
-            user_data = user_info.get(user_id)
-            if user_data:
-                user_data["project_photo_url"] = photo_url
+            """
+            )
+            self.conn.commit()
 
-                # Write updated user data to JSON file
-                with open(JSON_FILE, "w") as file:
-                    json.dump(user_info, file)
-
-                # Send a follow-up message to confirm successful upload
-                await interaction.followup.send(
-                    "Project photo uploaded successfully!", ephemeral=True
+            # Check if the user has the required role
+            required_role = discord.utils.get(
+                interaction.guild.roles, name=PREMIUM_ROLE_NAME
+            )
+            if (
+                required_role not in interaction.user.roles
+                or not interaction.user.guild_permissions.administrator
+            ):
+                return await interaction.response.send_message(
+                    "You don't have permission to use this command.", ephemeral=True
                 )
 
-            else:
-                await interaction.followup.send(
-                    "User data not found. Please create a portfolio first.",
+            # Load user data from database on bot startup
+            user_id = interaction.user.id
+
+            query = """SELECT * FROM users_portfolio WHERE user_id = ?"""
+            self.cursor.execute(query, (user_id,))
+            self.conn.commit()
+
+            user_info = self.cursor.fetchone()
+
+            if user_info:
+                await interaction.response.send_message(
+                    "You already have a portfolio. Use /portfolio_edit to edit.",
                     ephemeral=True,
                 )
+                return
 
-        except asyncio.TimeoutError:
-            await interaction.followup.send(
-                content="Upload process timed out. Please try again later."
+            project_url = project.url
+
+            user_info = (
+                user_id,
+                full_name,
+                professional_skill,
+                key_skills,
+                experience,
+                about_me,
+                github,
+                x,
+                upwork,
+                project_url,
+                # Add more information here later
+            )
+
+            # Insert user data to database
+            query = """INSERT INTO users_portfolio (
+                user_id,
+                full_name,
+                professional_skill,
+                key_skills,
+                experience,
+                about_me,
+                github,
+                x,
+                upwork,
+                project_url
+                )
+                VALUES
+                (?,?,?,?,?,?,?,?,?,?)
+                """
+
+            self.cursor.execute(query, user_info)
+            self.conn.commit()
+
+            await interaction.response.send_message(
+                f"Portfolio saved! Use */portfolio_show* to show portfolio.",
+                ephemeral=True,
             )
         except Exception as e:
-            await interaction.followup.send(content=f"An error occurred: {e}")
+            # Handle the exception
+            await interaction.response.send_message(
+                f"An error occurred: {e}", ephemeral=True
+            )
+            print(f"Error occurred: {e}")
 
-    @portfolio.command(name="show", description="Portfolio")
+    @portfolio.command(name="show", description="Show your portfolio.")
+    @app_commands.describe(
+        member="Whose portfolio?"
+    )
     async def show(
         self,
         interaction: Interaction,
         member: discord.Member = None,
     ):
+        try:
+            # If member parameter is not provided, default to the interaction user
+            if member is None:
+                member = interaction.user
 
-        # If member parameter is not provided, default to the interaction user
-        if member is None:
-            member = interaction.user
+            # Get the profile picture URL of the mentioned member, if any
+            profile_pic_url = member.avatar.url
 
-        user_id = str(member.id)
-        user_data = user_info.get(user_id)
-        if not user_data:
-            await interaction.response.send_message(
-                f"{member.display_name} hasn't created a portfolio yet.", ephemeral=True
+            user_id = member.id
+
+            query = """SELECT * FROM users_portfolio WHERE user_id = ?"""
+            self.cursor.execute(query, (user_id,))
+            user_info = self.cursor.fetchone()
+
+            if user_info is None:
+                # If user_info is None, it means the user doesn't have a portfolio
+                await interaction.response.send_message(
+                    f"{member.display_name} hasn't created a portfolio yet.",
+                    ephemeral=True,
+                )
+                return
+
+            (
+                _,
+                full_name,
+                professional_skill,
+                key_skills,
+                experience,
+                about_me,
+                github,
+                x,
+                upwork,
+                project_url,
+            ) = user_info
+
+            # Split the string of key skills into a list
+            key_skills = [skill.strip() for skill in key_skills.split(",")]
+
+            embed = Embed(title=professional_skill)
+            embed.set_author(
+                name=full_name,
+                icon_url=profile_pic_url,
+                url=f"https://www.discordapp.com/users/{user_id}",
             )
-            return
+            embed.add_field(name="Key Skills", value="\n".join(key_skills))
+            embed.add_field(name="Experience", value=experience)
+            embed.add_field(name="About me:", value=about_me, inline=False)
 
-        full_name = user_data["full_name"]
-        profile_pic_url = user_data["profile_pic_url"]
-        professional_skill = user_data["professional_skill"]
-        key_skills_list = user_data["key_skills"]
-        experience = user_data["experience"]
-        about_me = user_data["about_me"]
-        github = user_data["github"]
-        twitter = user_data["twitter"]
-        upwork = user_data["upwork"]
-        project_photo_url = user_data.get("project_photo_url")
+            if github:
+                embed.add_field(name="", value=f"[GitHub]({github})", inline=True)
+            if x:
+                embed.add_field(name="", value=f"[𝕏]({x})", inline=False)
+            if upwork:
+                embed.add_field(name="", value=f"[UpWork]({upwork})", inline=False)
 
-        embed = Embed(title=professional_skill)
-        embed.set_author(
-            name=full_name,
-            icon_url=profile_pic_url,
-            url=f"https://www.discordapp.com/users/{user_id}",
-        )
-        embed.add_field(name="Key Skills", value="\n".join(key_skills_list))
-        embed.add_field(name="Experience", value=experience)
-        embed.add_field(name="About me:", value=about_me, inline=False)
+            if project_url:
+                embed.set_image(url=project_url)
+            await interaction.response.send_message(embed=embed)
 
-        if github:
-            embed.add_field(name="", value=f"[GitHub]({github})", inline=True)
-        if twitter:
-            embed.add_field(name="", value=f"[Twitter]({twitter})", inline=False)
-        if upwork:
-            embed.add_field(name="", value=f"[UpWork]({upwork})", inline=False)
+        except Exception as e:
+            # Handle the exception
+            await interaction.response.send_message(
+                f"An error occurred: {e}", ephemeral=True
+            )
+            print(f"Error occurred: {e}")
 
-        if project_photo_url:
-            embed.set_image(url=project_photo_url)
-        await interaction.response.send_message(embed=embed)
-
-    @portfolio.command(name="edit", description="Edit Portfolio")
+    @portfolio.command(name="edit", description="Edit your portfolio.")
+    @app_commands.describe(
+        full_name="Edit your full name.",
+        professional_skill="Edit your professional skill.",
+        key_skills="Edit your key skills. (Separate each skill with a comma)",
+        experience="Edit your years of experience.",
+        about_me="Edit your bio.",
+        github="Edit your GitHub profile link.",
+        x="Edit your 𝕏 profile link.",
+        upwork="Edit your Upwork profile link."
+    )
     async def edit(
         self,
         interaction: Interaction,
         full_name: str = None,
         professional_skill: str = None,
-        bio: str = None,
+        about_me: str = None,
         key_skills: str = None,
         experience: str = None,
         github: str = None,
-        twitter: str = None,
+        x: str = None,
         upwork: str = None,
     ):
         # Check if the user has the required role
@@ -230,9 +260,11 @@ class Portfolio(commands.Cog):
                 "You don't have permission to use this command.", ephemeral=True
             )
 
-        user_id = str(interaction.user.id)
-        user_data = user_info.get(user_id)
-        if not user_data:
+        user_id = interaction.user.id
+        query = """SELECT * FROM users_portfolio WHERE user_id = ?"""
+        self.cursor.execute(query, (user_id,))
+        user_info = self.cursor.fetchone()
+        if not user_info:
             await interaction.response.send_message(
                 "You haven't created a portfolio yet. Use */portfolio_create* to create one.",
                 ephemeral=True,
@@ -241,63 +273,73 @@ class Portfolio(commands.Cog):
 
         # Update user data with edited information
         if full_name is not None:
-            user_data["full_name"] = full_name
+            query = """UPDATE users_portfolio SET full_name = ? WHERE user_id = ?"""
+            self.cursor.execute(query, (full_name, user_id))
         if professional_skill is not None:
-            user_data["professional_skill"] = professional_skill
-        if bio is not None:
-            user_data["bio"] = bio
+            query = """UPDATE users_portfolio SET professional_skill = ? WHERE user_id = ?"""
+            self.cursor.execute(query, (professional_skill, user_id))
+        if about_me is not None:
+            query = """UPDATE users_portfolio SET about_me = ? WHERE user_id = ?"""
+            self.cursor.execute(query, (about_me, user_id))
         if key_skills is not None:
-            user_data["key_skills"] = [skill.strip() for skill in key_skills.split(",")]
+            query = """UPDATE users_portfolio SET key_skills = ? WHERE user_id = ?"""
+            self.cursor.execute(query, (key_skills, user_id))
         if experience is not None:
-            user_data["experience"] = experience
+            query = """UPDATE users_portfolio SET experience = ? WHERE user_id = ?"""
+            self.cursor.execute(query, (experience, user_id))
         if github is not None:
-            user_data["github"] = github
-        if twitter is not None:
-            user_data["twitter"] = twitter
+            query = """UPDATE users_portfolio SET github = ? WHERE user_id = ?"""
+            self.cursor.execute(query, (github, user_id))
+        if x is not None:
+            query = """UPDATE users_portfolio SET x = ? WHERE user_id = ?"""
+            self.cursor.execute(query, (x, user_id))
         if upwork is not None:
-            user_data["upwork"] = upwork
-
-        # Update user info dictionary
-        user_info[user_id] = user_data
-
-        # Write updated user data to JSON file
-        with open(JSON_FILE, "w") as file:
-            json.dump(user_info, file)
-
+            query = """UPDATE users_portfolio SET upwork = ? WHERE user_id = ?"""
+            self.cursor.execute(query, (upwork, user_id))
+        self.conn.commit()
         await interaction.response.send_message(
             "Portfolio updated successfully!", ephemeral=True
         )
 
-    @portfolio.command(name="delete", description="Delete Portfolio")
+    @portfolio.command(name="delete", description="Delete your portfolio")
     async def delete(self, interaction: Interaction):
-        # Check if the user has the required role
-        required_role = discord.utils.get(
-            interaction.guild.roles, name=PREMIUM_ROLE_NAME
-        )
-        if (
-            required_role not in interaction.user.roles
-            or not interaction.user.guild_permissions.administrator
-        ):
-            return await interaction.response.send_message(
-                "You don't have permission to use this command.", ephemeral=True
-            )
+        try:
 
-        user_id = str(interaction.user.id)
-        if user_id not in user_info:
+            # Check if the user has the required role
+            required_role = discord.utils.get(
+                interaction.guild.roles, name=PREMIUM_ROLE_NAME
+            )
+            if (
+                required_role not in interaction.user.roles
+                or not interaction.user.guild_permissions.administrator
+            ):
+                return await interaction.response.send_message(
+                    "You don't have permission to use this command.", ephemeral=True
+                )
+
+            user_id = interaction.user.id
+
+            query = """SELECT * FROM users_portfolio WHERE user_id = ?"""
+            self.cursor.execute(query, (user_id,))
+            user_info = self.cursor.fetchone()
+            if not user_info:
+                await interaction.response.send_message(
+                    "You haven't created a portfolio yet.", ephemeral=True
+                )
+                return
+            query = """DELETE FROM users_portfolio WHERE user_id = ?"""
+            self.cursor.execute(query, (user_id,))
+            self.conn.commit()
+
             await interaction.response.send_message(
-                "You haven't created a portfolio yet.", ephemeral=True
+                "Portfolio deleted successfully!", ephemeral=True
             )
-            return
-
-        del user_info[user_id]
-
-        # Write updated user data to JSON file
-        with open(JSON_FILE, "w") as file:
-            json.dump(user_info, file)
-
-        await interaction.response.send_message(
-            "Portfolio deleted successfully!", ephemeral=True
-        )
+        except Exception as e:
+            # Handle the exception
+            await interaction.response.send_message(
+                f"An error occurred: {e}", ephemeral=True
+            )
+            print(f"Error occurred: {e}")
 
 
 async def setup(bot):
