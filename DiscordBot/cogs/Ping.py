@@ -1,9 +1,5 @@
+from discord import Interaction, app_commands
 from discord.ext import commands
-
-from discord import (
-    app_commands,
-    Interaction,
-)
 
 
 class Ping(commands.Cog):
@@ -14,11 +10,16 @@ class Ping(commands.Cog):
     async def on_ready(self):
         print("Ping.py is ready!")
 
-    @app_commands.command(name="ping", description="Ping the bot")
+    @app_commands.command(name="ping", description="Check bot's latency")
+    # @app_commands.checks.has_permissions(administrator=True)
     async def ping(self, interaction: Interaction):
         bot_latency = round(self.bot.latency * 1000)
 
         await interaction.response.send_message(f"Ping! {bot_latency} ms.")
+
+    # @ping.error
+    # async def ping_error(self, interaction: Interaction, error):
+    #     await interaction.response.send_message("Not allowed!", ephemeral=True)
 
 
 async def setup(bot):

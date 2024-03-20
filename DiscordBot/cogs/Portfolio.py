@@ -7,7 +7,7 @@ from discord import Attachment, Embed, Interaction, app_commands
 from discord.ext import commands
 
 sys.path.append("setup")
-from setup import PREMIUM_ROLE_NAME
+from setup import PREMIUM_ROLE_NAME, guild_id
 
 pdb_path = "databases/portfolios.db"
 
@@ -38,7 +38,6 @@ class Portfolio(commands.Cog):
         x="Add a link to your 𝕏 profile.",
         upwork="Add a link to your Upwork profile.",
         project="Upload a project.",
-
     )
     async def create(
         self,
@@ -54,7 +53,6 @@ class Portfolio(commands.Cog):
         project: Attachment = None,
     ):
         try:
-
             # Create portfolio table
             self.cursor.execute(
                 """CREATE TABLE IF NOT EXISTS users_portfolio (
@@ -68,9 +66,6 @@ class Portfolio(commands.Cog):
                         x TEXT,
                         upwork TEXT,
                         project_url TEXT
-            )
-
-
             """
             )
             self.conn.commit()
@@ -103,7 +98,10 @@ class Portfolio(commands.Cog):
                 )
                 return
 
-            project_url = project.url
+            project_url = None
+
+            if project is not None:
+                project_url = project.url
 
             user_info = (
                 user_id,
@@ -151,9 +149,7 @@ class Portfolio(commands.Cog):
             print(f"Error occurred: {e}")
 
     @portfolio.command(name="show", description="Show your portfolio.")
-    @app_commands.describe(
-        member="Whose portfolio?"
-    )
+    @app_commands.describe(member="Whose portfolio?")
     async def show(
         self,
         interaction: Interaction,
@@ -234,7 +230,7 @@ class Portfolio(commands.Cog):
         about_me="Edit your bio.",
         github="Edit your GitHub profile link.",
         x="Edit your 𝕏 profile link.",
-        upwork="Edit your Upwork profile link."
+        upwork="Edit your Upwork profile link.",
     )
     async def edit(
         self,
@@ -248,6 +244,8 @@ class Portfolio(commands.Cog):
         x: str = None,
         upwork: str = None,
     ):
+        if interaction.guild.id is not guild_id:
+            return
         # Check if the user has the required role
         required_role = discord.utils.get(
             interaction.guild.roles, name=PREMIUM_ROLE_NAME
@@ -304,7 +302,6 @@ class Portfolio(commands.Cog):
     @portfolio.command(name="delete", description="Delete your portfolio")
     async def delete(self, interaction: Interaction):
         try:
-
             # Check if the user has the required role
             required_role = discord.utils.get(
                 interaction.guild.roles, name=PREMIUM_ROLE_NAME

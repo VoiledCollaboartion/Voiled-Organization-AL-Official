@@ -1,13 +1,7 @@
-from discord.ext import commands
-
 import asyncio
-import discord.ui
-from discord import (
-    app_commands,
-    Embed,
-    Interaction,
-)
 import sys
+
+from discord.ext import commands
 
 sys.path.append("setup")
 from setup import owner_id
@@ -23,12 +17,21 @@ class Shutdown(commands.Cog):
     ):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def shutdown(self, ctx):
+        """
+        [Emergency] Shut down the bot.
+
+        Usage: /shutdown
+
+        This command shuts down the bot.
+        Only the bot owner can use this command.
+        """
         # Check if the user who sent the command is authorized
         # Replace this condition with your own authorization logic
         if ctx.author.id == owner_id:
-            await ctx.send("Shutting down...")
+            msg = await ctx.send("Shutting down...")
+            await asyncio.sleep(5)
             await self.bot.close()
 
 
