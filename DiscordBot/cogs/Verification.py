@@ -1,8 +1,12 @@
 import asyncio
 import sqlite3
-from datetime import datetime
+import random
+import string
 
 import discord.ui
+
+from datetime import datetime
+from captcha.image import ImageCaptcha
 from discord import Color, Embed, Interaction, Message, TextChannel
 from discord.ext import commands
 
@@ -21,6 +25,7 @@ class VerifyView(discord.ui.View):
     @discord.ui.button(
         label="Verify", style=discord.ButtonStyle.green, custom_id="verify"
     )
+    
     async def verify(self, interaction: Interaction, button: discord.ui.Button):
         try:
 
@@ -34,36 +39,19 @@ class VerifyView(discord.ui.View):
                         verified_role_id INTEGER,
                         welcome_channel_id INTEGER
             )
-
-
             """
             )
+            
             self.conn.commit()
             query = """SELECT * FROM server_settings WHERE server_id = ?"""
             self.cursor.execute(query, (server.id,))
             self.conn.commit()
+            
+            captcha_text, image_file = generate_captcha()
+            print(captcha_text)
+            # Send the CAPTCHA image to the user
+            await interaction.channel.send(file=discord.File(image_file))
 
-            server_info = self.cursor.fetchone()
-            print(server_info)
-
-            if server_info is None:
-                await server.owner.send(
-                    f"Please set the role for verified members in {server.name}!"
-                )
-                return await interaction.response.send_message(
-                    "Oops! An error occurred verifying you... Please try again later."
-                )
-
-            (_, VERIFIED_ROLE_ID, WELCOME_CHANNEL_ID) = server_info
-            # Generate a verification code
-            code = generate_verification_code()
-            verification_codes[user.id] = code
-            embed = Embed(
-                title=f"Verification for {server.name}",
-                description=f"Reply with the following code: ||{code}||",
-                color=Color.green(),
-            )
-            await interaction.channel.send(embed=embed, delete_after=60)
 
             def check(m: Message):
                 try:
@@ -77,9 +65,9 @@ class VerifyView(discord.ui.View):
                 msg = await self.bot.wait_for("message", check=check, timeout=60)
 
                 # Check if the message content matches the verification code
-                if msg.content == code:
+                if msg.content == captcha_text:
                     # Assign the verified role
-                    v_role = discord.utils.get(server.roles, id=VERIFIED_ROLE_ID)
+                    v_role = discord.utils.get(server.roles, name="Verified")
                     await user.add_roles(v_role)
 
                     # Send a msg indicating successful verification and delete it after a short delay
@@ -90,29 +78,29 @@ class VerifyView(discord.ui.View):
                     await asyncio.sleep(5)
                     await interaction.channel.delete()
 
-                    if welcome_channel:
+                    # if welcome_channel:
 
-                        # main message
-                        welcome_channel = self.bot.get_channel(WELCOME_CHANNEL_ID)
-                        # welcome_message = f"Hey, {user.mention}!"
+                    #     # main message
+                    #     welcome_channel = self.bot.get_channel(WELCOME_CHANNEL_ID)
+                    #     # welcome_message = f"Hey, {user.mention}!"
 
-                        current_date = datetime.now().replace(microsecond=0)
+                    #     current_date = datetime.now().replace(microsecond=0)
 
-                        # embed message
-                        embed = discord.Embed(
-                            title=f"{user.mention} just joined!",
-                            color=Color.dark_grey(),
-                        )
-                        account_age = int(user.created_at.timestamp())
-                        value = f"Display Name: {user.display_name}\
-                            \nUsername: {user.name}\
-                            \nDiscord Member Since: <t:{account_age}:D>"
-                        embed.add_field(name=f"About {user.display_name}", value=value)
-                        embed.timestamp = current_date
-                        if user.avatar:
-                            embed.set_thumbnail(url=user.avatar.url)
-                        embed.set_footer(text="\u200b")
-                        await welcome_channel.send(embed=embed)
+                    #     # embed message
+                    #     embed = discord.Embed(
+                    #         title=f"{user.mention} just joined!",
+                    #         color=Color.dark_grey(),
+                    #     )
+                    #     account_age = int(user.created_at.timestamp())
+                    #     value = f"Display Name: {user.display_name}\
+                    #         \nUsername: {user.name}\
+                    #         \nDiscord Member Since: <t:{account_age}:D>"
+                    #     embed.add_field(name=f"About {user.display_name}", value=value)
+                    #     embed.timestamp = current_date
+                    #     if user.avatar:
+                    #         embed.set_thumbnail(url=user.avatar.url)
+                    #     embed.set_footer(text="\u200b")
+                    #     await welcome_channel.send(embed=embed)
 
                     # Clean up the verification code
                     del verification_codes[user.id]
@@ -135,12 +123,21 @@ class VerifyView(discord.ui.View):
             print(f"Error occurred: {e}")
 
 
+# You can customize the code generation logic here
+# For simplicity, let's generate a random 4-digit code
 def generate_verification_code():
-    # You can customize the code generation logic here
-    # For simplicity, let's generate a random 4-digit code
-    import random
-
     return str(random.randint(1000, 9999))
+
+# Function to generate a CAPTCHA
+def generate_captcha():
+    # Create a list of random letters
+    captcha_text = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    # Generate CAPTCHA image
+    image_captcha = ImageCaptcha(width=280, height=90)
+    image = image_captcha.generate_image(captcha_text)
+    image_file = f"captcha_{captcha_text}.png"
+    image.save(image_file)
+    return captcha_text, image_file
 
 
 class Verification(commands.Cog):
