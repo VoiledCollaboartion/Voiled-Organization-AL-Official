@@ -66,10 +66,10 @@ class Portfolio(commands.Cog):
                         x TEXT,
                         upwork TEXT,
                         project_url TEXT
+                        );
             """
             )
             self.conn.commit()
-
             # Check if the user has the required role
             required_role = discord.utils.get(
                 interaction.guild.roles, name=PREMIUM_ROLE_NAME
