@@ -13,8 +13,6 @@ from discord.ui import Select, View
 from discord.ext import commands
 
 sdb_path = "databases/settings.db"
-VERIFIED_ROLE_ID = 0
-WELCOME_CHANNEL_ID = 0
 class MyDropdown(Select):
     def __init__(self, captcha_text, server_info):
         self.captcha_text = captcha_text
