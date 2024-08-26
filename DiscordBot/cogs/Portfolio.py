@@ -146,7 +146,7 @@ class Portfolio(commands.Cog):
             await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
-            print(f"Error occurred: {e}")
+            print(f"Portfolio Create Error occurred: {e}")
 
     @portfolio.command(name="show", description="Show your portfolio.")
     @app_commands.describe(member="Whose portfolio?")
@@ -219,7 +219,7 @@ class Portfolio(commands.Cog):
             await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
-            print(f"Error occurred: {e}")
+            print(f"Portfolio Show Error occurred: {e}")
 
     @portfolio.command(name="edit", description="Edit your portfolio.")
     @app_commands.describe(
@@ -336,7 +336,7 @@ class Portfolio(commands.Cog):
             await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
-            print(f"Error occurred: {e}")
+            print(f"Portfolio Delete Error occurred: {e}")
 
 
 async def setup(bot):

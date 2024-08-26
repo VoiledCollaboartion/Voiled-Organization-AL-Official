@@ -1,12 +1,10 @@
 # settings
-TOKEN = ""
-PREFIX = "/"
-PREMIUM_ROLE_NAME = "@"
-ADMIN_CHANNEL_ID = 
-PROGRESS_CHANNEL_ID = 
-VERIFIED_ROLE_ID = ""
-WELCOME_CHANNEL_ID = 
+TOKEN = 0
+PREFIX = 0
+PREMIUM_ROLE_NAME = 0
+ADMIN_CHANNEL_ID = 0
+PROGRESS_CHANNEL_ID = 0
 
 # Input appropriate IDs and contents.
-owner_id = 
-guild_id = 
+owner_id = 0
+guild_id = 0

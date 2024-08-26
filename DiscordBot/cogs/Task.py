@@ -70,7 +70,7 @@ class TaskView(discord.ui.View):
             )
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"button1_callback Error occurred: {e}")
             return await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
@@ -100,7 +100,7 @@ class TaskView(discord.ui.View):
 
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"button2_callback Error occurred: {e}")
             return await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
@@ -136,7 +136,7 @@ class Task(commands.Cog):
             print("Task.py is ready!")
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"on_ready Error occurred: {e}")
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -152,7 +152,7 @@ class Task(commands.Cog):
                 await self.forward_reply(message, reminder_msg_id, title)
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"on_message Error occurred: {e}")
 
     task = app_commands.Group(name="task", description="Task")
 
@@ -245,7 +245,7 @@ class Task(commands.Cog):
             await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
-            print(f"Error occurred: {e}")
+            print(f"set Error occurred: {e}")
 
     @task.command(name="show", description="Show all tasks for member")
     async def show(self, interaction: Interaction, member: Member):
@@ -321,7 +321,7 @@ class Task(commands.Cog):
             await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
-            print(f"Error occurred: {e}")
+            print(f"show Error occurred: {e}")
 
     @task.command(name="showall", description="Show list of members with pending tasks")
     @commands.guild_only()
@@ -358,7 +358,7 @@ class Task(commands.Cog):
             await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
-            print(f"Error occurred: {e}")
+            print(f"showall Error occurred: {e}")
 
     @task.command(name="delete", description="Delete a task for member")
     async def delete(self, interaction: Interaction, member: Member, number: int):
@@ -402,7 +402,7 @@ class Task(commands.Cog):
             await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
-            print(f"Error occurred: {e}")
+            print(f"delete Error occurred: {e}")
 
     async def task_now(self, member, title, body):
         try:
@@ -422,7 +422,7 @@ class Task(commands.Cog):
             )
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"task_now Error occurred: {e}")
 
     async def send_reminder(self, member, title, body, interval):
         try:
@@ -432,22 +432,23 @@ class Task(commands.Cog):
             msg = f"# {title}\n```{body}```\nYour replies to this message would be forwarded to the progress channel."
             embed = Embed(title=header, description=msg, color=Color.yellow())
 
-            sent_msg = await member.send(embed=embed)
-            reminder_msg_id = sent_msg.id
+            if member:
+                sent_msg = await member.send(embed=embed)
+                reminder_msg_id = sent_msg.id
 
-            # Update next reminder date
-            query = """UPDATE reminders SET reminder_msg_id = ? WHERE user_id = ? AND title = ?"""
-            self.cursor.execute(query, (reminder_msg_id, member.id, title))
-            self.conn.commit()
+                # Update next reminder date
+                query = """UPDATE reminders SET reminder_msg_id = ? WHERE user_id = ? AND title = ?"""
+                self.cursor.execute(query, (reminder_msg_id, member.id, title))
+                self.conn.commit()
 
-            # Update next reminder date
-            query = """UPDATE reminders SET next_reminder_date = ?WHERE user_id = ? AND title = ?"""
-            self.cursor.execute(query, (next_reminder_date, member.id, title))
-            self.conn.commit()
+                # Update next reminder date
+                query = """UPDATE reminders SET next_reminder_date = ?WHERE user_id = ? AND title = ?"""
+                self.cursor.execute(query, (next_reminder_date, member.id, title))
+                self.conn.commit()
 
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"send_reminder Error occurred: {e}")
 
     async def forward_reply(self, message, reminder_msg_id, title):
         # Check if the message is a reply to a message sent via DM by the bot

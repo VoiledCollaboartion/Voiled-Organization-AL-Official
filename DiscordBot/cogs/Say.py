@@ -131,7 +131,7 @@ class Say(commands.GroupCog, group_name="say"):
             )
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"Say DM Error occurred: {e}")
 
 
 async def setup(bot):

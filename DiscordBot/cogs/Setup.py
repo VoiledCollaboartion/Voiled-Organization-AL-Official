@@ -88,7 +88,7 @@ class ConfirmView(discord.ui.View):
 
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"Setup button1_callback Error occurred: {e}")
             return await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
@@ -120,7 +120,7 @@ class ConfirmView(discord.ui.View):
 
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"Setup button2_callback Error occurred: {e}")
             return await interaction.response.send_message(
                 f"An error occurred: {e}", ephemeral=True
             )
@@ -157,7 +157,7 @@ class ChannelView(discord.ui.View):
             )
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"select_channel Error occurred: {e}")
 
 
 class RoleView(discord.ui.View):
@@ -192,7 +192,7 @@ class RoleView(discord.ui.View):
             )
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"select_role Error occurred: {e}")
 
 
 class Setup(commands.GroupCog, group_name="setup"):
@@ -215,7 +215,7 @@ class Setup(commands.GroupCog, group_name="setup"):
 
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"on_guild_join Error occurred: {e}")
 
     @app_commands.command(name="welcome_channel", description="Configure me")
     @app_commands.checks.has_permissions(administrator=True)
@@ -231,7 +231,7 @@ class Setup(commands.GroupCog, group_name="setup"):
             )
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"welcome_channel Error occurred: {e}")
 
     @welcome_channel.error
     async def welcome_channel_error(self, interaction: Interaction, error):
@@ -253,7 +253,7 @@ class Setup(commands.GroupCog, group_name="setup"):
             )
         except Exception as e:
             # Handle the exception
-            print(f"Error occurred: {e}")
+            print(f"verified_role Error occurred: {e}")
 
     @verified_role.error
     async def verified_role_error(self, interaction: Interaction, error):
