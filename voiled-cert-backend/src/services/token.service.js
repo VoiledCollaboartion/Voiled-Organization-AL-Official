@@ -34,13 +34,14 @@ const generateToken = (userId, expires, type, secret = config.jwt.secret) => {
  * @param {boolean} [blacklisted]
  * @returns {Promise<Token>}
  */
-const saveToken = async (token, userId, expires, type, blacklisted = false) => {
+const saveToken = async (token, userId, expires, type, blacklisted = false, receiverId = null) => {
   const tokenDoc = await Token.create({
     token,
     user: userId,
     expires: expires.toDate(),
     type,
     blacklisted,
+    receiver: receiverId
   });
   return tokenDoc;
 };
@@ -113,6 +114,31 @@ const generateVerifyEmailToken = async (user) => {
   return verifyEmailToken;
 };
 
+const generateCertificateToken = (length = 6) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let code = '';
+  for (let i = 0; i < length; i++) {
+    code += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+
+  return code;
+}
+
+const generateVerifyCertificateToken = async (userId, receiverId) => {
+  const expires = moment().add(config.jwt.verifyCertificateExpirationMinutes, 'minutes');
+  const verifyCertificateToken = generateCertificateToken();
+  await saveToken(verifyCertificateToken, userId, expires, tokenTypes.VERIFY_CERTIFICATE, receiverId);
+  return verifyCertificateToken;
+}
+
+const verifyCertificateToken = async (token, type, userId) => {
+  const tokenDoc = await Token.findOne({ token, type, user: userId, blacklisted: false });
+  if (!tokenDoc) {
+    throw new Error('Token not found');
+  }
+  return tokenDoc;
+}
+
 module.exports = {
   generateToken,
   saveToken,
@@ -120,4 +146,6 @@ module.exports = {
   generateAuthTokens,
   generateResetPasswordToken,
   generateVerifyEmailToken,
+  verifyCertificateToken,
+  generateVerifyCertificateToken
 };
