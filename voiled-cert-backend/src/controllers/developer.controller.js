@@ -19,8 +19,15 @@ const getDeveloper = catchAsync(async (req, res) => {
 
 const verifyCertOwner = catchAsync(async (req, res) => {
     const { receiverId, ownerId } = pick(req.body, ['ownerId', 'receiverId']);
-    
     await developerService.sendVerifyCodeToOwner(ownerId, receiverId);
+    res.send("success");
+});
+
+const verifyCertOwnerFinallyWithToken = catchAsync(async (req, res) => {
+    const { ownerId } = pick(req.query, ['ownerId']);
+    const { token } = pick(req.body, ['token']);
+
+    await developerService.verifyCertWithToken(ownerId, token);
 
     return res.send("success");
 })
@@ -28,5 +35,6 @@ const verifyCertOwner = catchAsync(async (req, res) => {
 module.exports = {
     upsertDeveloper,
     getDeveloper,
-    verifyCertOwner
+    verifyCertOwner,
+    verifyCertOwnerFinallyWithToken
 }

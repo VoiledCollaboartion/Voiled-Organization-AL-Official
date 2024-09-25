@@ -4,6 +4,8 @@ const ApiError = require('../utils/ApiError');
 const { generateVerifyCertificateToken } = require('./token.service');
 const { getUserById } = require("./user.service");
 const { sendEmail } = require('./email.service');
+const { tokenService } = require('.');
+const { tokenTypes } = require('../config/tokens');
 
 /**
  * @param {String} userId 
@@ -54,8 +56,36 @@ const sendVerifyCodeToOwner = async (ownerId, receiverId) => {
     }
 }
 
+const verifyCertWithToken = async (ownerId, token) => {
+    try {
+        let tokenToc = await tokenService.verifyCertificateToken(token, tokenTypes.VERIFY_CERTIFICATE, ownerId);
+
+        if (tokenToc) {
+            let receiver = await getUserById(tokenToc.receiver);
+
+            let html = `
+                <h1>Hi, ${receiver.name}</h1>
+                <h2>He/She is the owner of certificate. You can trust him/her. Best regards.</h2>
+            `
+
+            console.log(receiver);
+            
+
+            sendEmail(receiver.email, "Notification from Voiled.", '', html);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.log(error);
+        return false;
+        
+    }
+}
+
 module.exports = {
     getDeveloperByUserId,
     upsertDeveloperByUserId,
-    sendVerifyCodeToOwner
+    sendVerifyCodeToOwner,
+    verifyCertWithToken
 }
