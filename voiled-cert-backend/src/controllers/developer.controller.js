@@ -17,7 +17,16 @@ const getDeveloper = catchAsync(async (req, res) => {
     res.send(developer);
 })
 
+const verifyCertOwner = catchAsync(async (req, res) => {
+    const { receiverId, ownerId } = pick(req.body, ['ownerId', 'receiverId']);
+    
+    await developerService.sendVerifyCodeToOwner(ownerId, receiverId);
+
+    return res.send("success");
+})
+
 module.exports = {
     upsertDeveloper,
-    getDeveloper
+    getDeveloper,
+    verifyCertOwner
 }

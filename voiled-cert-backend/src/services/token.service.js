@@ -127,7 +127,9 @@ const generateCertificateToken = (length = 6) => {
 const generateVerifyCertificateToken = async (userId, receiverId) => {
   const expires = moment().add(config.jwt.verifyCertificateExpirationMinutes, 'minutes');
   const verifyCertificateToken = generateCertificateToken();
-  await saveToken(verifyCertificateToken, userId, expires, tokenTypes.VERIFY_CERTIFICATE, receiverId);
+  
+  await saveToken(verifyCertificateToken, userId, expires, tokenTypes.VERIFY_CERTIFICATE, false, receiverId);
+  console.log(">>>>>>>>>>>>>>>>>>>>>");
   return verifyCertificateToken;
 }
 
