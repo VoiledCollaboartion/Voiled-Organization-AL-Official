@@ -2,7 +2,9 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { developerService } = require('../services');
+const { developerService, qrcodeService } = require('../services');
+
+const path = require("path");
 
 const upsertDeveloper = catchAsync(async (req, res) => {
     const developer = await developerService.upsertDeveloperByUserId(req.body);
@@ -32,9 +34,16 @@ const verifyCertOwnerFinallyWithToken = catchAsync(async (req, res) => {
     return res.send("success");
 })
 
+const decordQRCode = catchAsync(async(req, res) => {
+    let result = await qrcodeService.decodeQRCode(path.join(__dirname, "../uploads/qrcode/image.png"));
+
+    return res.send(result);
+})
+
 module.exports = {
     upsertDeveloper,
     getDeveloper,
     verifyCertOwner,
-    verifyCertOwnerFinallyWithToken
+    verifyCertOwnerFinallyWithToken,
+    decordQRCode
 }
