@@ -42,6 +42,9 @@ const sendVerifyCodeToOwner = async (ownerId, receiverId) => {
 
         let owner = await getUserById(ownerId);
 
+        console.log(">>>>>>>>>>>>>>>>", owner);
+        
+
         let html = `
             <h1>${verifyToken}</h1>
             <p>Click below button to go to verify page and input your verify code. </p>
