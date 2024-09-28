@@ -20,9 +20,15 @@ const transport = nodemailer.createTransport(config.email.smtp);
  * @param {string} text
  * @returns {Promise}
  */
-const sendEmail = async (to, subject, text) => {
-  const msg = { from: config.email.from, to, subject, text };
-  await transport.sendMail(msg);
+const sendEmail = async (to, subject, text, html) => {
+  const msg = { from: config.email.from, to, subject, text, html };
+  
+  try {
+    await transport.sendMail(msg);
+  } catch (err) {
+    console.log(err);
+  }
+  
 };
 
 /**

@@ -127,11 +127,15 @@ const generateCertificateToken = (length = 6) => {
 const generateVerifyCertificateToken = async (userId, receiverId) => {
   const expires = moment().add(config.jwt.verifyCertificateExpirationMinutes, 'minutes');
   const verifyCertificateToken = generateCertificateToken();
-  await saveToken(verifyCertificateToken, userId, expires, tokenTypes.VERIFY_CERTIFICATE, receiverId);
+  
+  await saveToken(verifyCertificateToken, userId, expires, tokenTypes.VERIFY_CERTIFICATE, false, receiverId);
+  console.log(">>>>>>>>>>>>>>>>>>>>>");
   return verifyCertificateToken;
 }
 
 const verifyCertificateToken = async (token, type, userId) => {
+  console.log(token, type, userId);
+  
   const tokenDoc = await Token.findOne({ token, type, user: userId, blacklisted: false });
   if (!tokenDoc) {
     throw new Error('Token not found');

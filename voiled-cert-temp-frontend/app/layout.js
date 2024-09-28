@@ -27,32 +27,7 @@ export default function RootLayout({ children }) {
     {
       key: "profile",
       icon: <SolutionOutlined />,
-      label: <Link href={"/resume/profile/add"}>Profile</Link>
-    },
-    {
-      key: "education",
-      icon: <ReadOutlined />,
-      label: <Link href={"/resume/profile/add"}>Education</Link>
-    },
-    {
-      key: "experience",
-      icon: <HistoryOutlined />,
-      label: <Link href={"/resume/profile/add"}>Experience</Link>
-    },
-    {
-      key: "skill",
-      icon: <StarOutlined />,
-      label: <Link href={"/resume/profile/add"}>Skill</Link>
-    },
-    {
-      key: "group",
-      icon: <GroupOutlined />,
-      label: <Link href={"/resume/profile/add"}>Freelancer</Link>
-    },
-    {
-      key: "cert",
-      icon: <IdcardOutlined />,
-      label: <Link href={"/resume/profile/add"}>Certification</Link>
+      label: <Link href={"/scan"}>Scan QR Code</Link>
     },
   ]
 

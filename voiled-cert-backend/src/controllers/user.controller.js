@@ -34,10 +34,17 @@ const deleteUser = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getUserIdByEmail = catchAsync(async (req, res) => {
+  let { email } = pick(req.body, ['email']);
+  let user = await userService.getUserByEmail(email);
+  return res.send(user.id)
+})
+
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
+  getUserIdByEmail
 };

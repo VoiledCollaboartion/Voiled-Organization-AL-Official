@@ -34,6 +34,8 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
+  console.log(id);
+  
   return User.findById(id);
 };
 
