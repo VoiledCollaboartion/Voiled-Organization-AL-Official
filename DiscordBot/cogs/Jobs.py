@@ -44,6 +44,45 @@ def load_job_post(thread_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+c.execute(
+    """CREATE TABLE IF NOT EXISTS job_applications (
+    thread_id INTEGER,
+    applicant_id INTEGER,
+    status TEXT,
+    PRIMARY KEY (thread_id, applicant_id)
+    )"""
+)
+conn.commit()
+
+
+def save_application(thread_id, applicant_id, status="pending"):
+    try:
+        c.execute(
+            """
+                  INSERT OR REPLACE INTO job_applications 
+                  (thread_id, applicant_id, status)
+                  VALUES (?, ?, ?)
+                  """,
+            (thread_id, applicant_id, status),
+        )
+        conn.commit()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+def check_application_status(thread_id, applicant_id):
+    try:
+        c.execute(
+            """SELECT status FROM job_applications 
+                WHERE thread_id = ? AND applicant_id = ?""",
+            (thread_id, applicant_id),
+        )
+        result = c.fetchone()
+        return result[0] if result else None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
 
 class JobsModal(discord.ui.Modal, title="Post A Job"):
 
@@ -203,12 +242,13 @@ class AcceptView(discord.ui.View):
                 workdesk_channel = discord.utils.get(
                     category.channels, name="💻┃workdesk"
                 )
+
             # Notify the applicant and job poster with the direct link to the 'information' channel
             await applicant.send(
                 f"You have been invited to the project workspace in {guild.name} under the category '{category.name}'!\n"
                 f"Here is a direct link: https://discord.com/channels/{guild.id}/{workdesk_channel.id}"
             )
-
+            save_application(self.thread_id, self.applicant.id, status="accepted")
         except Exception as e:
             # Handle exceptions
             print(f"Error occurred: {e}")
@@ -231,6 +271,7 @@ class AcceptView(discord.ui.View):
 
             # Edit only the view (buttons), keeping the cover letter and other content intact
             await interaction.edit_original_response(view=self)
+            save_application(self.thread_id, self.applicant.id, status="rejected")
         except Exception as e:
             # Handle exceptions
             print(f"Error occurred: {e}")
@@ -342,9 +383,26 @@ class ApplyView(discord.ui.View):
                 )
                 return
 
-            else:
-                modal = ApplyModal(self.bot, job_poster_id, applicant, thread_id)
-                return await interaction.response.send_modal(modal)
+            # Check the application status
+            status = check_application_status(thread_id, applicant.id)
+
+            if status == "pending":
+                await interaction.response.send_message(
+                    "You have already applied to this job. Wait for a response before reapplying.",
+                    ephemeral=True,
+                )
+
+            elif status == "accepted":
+                await interaction.response.send_message(
+                    "Your application has already been accepted!", ephemeral=True
+                )
+                return
+
+            modal = ApplyModal(self.bot, job_poster_id, applicant, thread_id)
+            await interaction.response.send_modal(modal)
+
+            # Save the application as 'pending'
+            save_application(thread_id, applicant.id, status="pending")
 
         except Exception as e:
             # Handle the exception
