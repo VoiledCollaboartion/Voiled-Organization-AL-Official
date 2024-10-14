@@ -1,4 +1,3 @@
-import asyncio
 import re
 import sqlite3
 import sys
@@ -9,7 +8,7 @@ from discord import Color, Embed, Interaction, Member, app_commands
 from discord.ext import commands, tasks
 
 sys.path.append("setup")
-from setup import ADMIN_CHANNEL_ID, PROGRESS_CHANNEL_ID, guild_id
+from setup import PROGRESS_CHANNEL_ID
 
 tdb_path = "databases/tasks.db"
 
@@ -404,24 +403,25 @@ class Task(commands.Cog):
             )
             print(f"Error occurred: {e}")
 
-    async def task_now(self, member, title, body):
+    async def task_now(self, member, title, body, interaction_channel):
         try:
             header = "YOUR TASK IS DUE NOW!"
             msg = f"# {title}\n```{body}```"
             embed = Embed(title=header, description=msg, color=Color.yellow())
 
             await member.send(embed=embed)
-            admin_channel = await self.bot.fetch_channel(ADMIN_CHANNEL_ID)
 
-            header = f"DUE TASK"
-            msg = f"{member.mention}\n**Title: {title}**\nDescription:\n```{body}```"
-            embed = Embed(title=header, description=msg, color=Color.red())
-            await admin_channel.send(
+            # Use the interaction channel instead of ADMIN_CHANNEL_ID
+            embed = Embed(
+                title="DUE TASK",
+                description=f"{member.mention}\n**Title: {title}**\nDescription:\n```{body}```",
+                color=Color.red(),
+            )
+            await interaction_channel.send(
                 embed=embed,
                 view=TaskView(member.id, title),
             )
         except Exception as e:
-            # Handle the exception
             print(f"Error occurred: {e}")
 
     async def send_reminder(self, member, title, body, interval):

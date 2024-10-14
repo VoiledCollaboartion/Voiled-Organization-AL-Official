@@ -141,7 +141,7 @@ class ChannelView(discord.ui.View):
     ):
         try:
             welcome_channel = select.values[0]
-            server_id = interaction.guild_id
+            server_id = interaction.GUILD_ID
             embed = Embed(
                 title="Confirmation",
                 description=f"Confirm to use {select.values[0].mention} as the welcome channel ",
@@ -164,7 +164,6 @@ class RoleView(discord.ui.View):
 
     def __init__(self):
         super().__init__(timeout=None)
-    
 
     @discord.ui.select(
         placeholder="Select the role for verified members",
@@ -175,13 +174,13 @@ class RoleView(discord.ui.View):
     ):
         try:
             verified_role = select.values[0]
-            server_id = interaction.guild_id
+            server_id = interaction.GUILD_ID
             embed = Embed(
                 title="Confirmation",
                 description=f"Confirm to use {select.values[0].mention} as the role for verified members",
                 color=Color.blue(),
             )
-            
+
             return await interaction.response.edit_message(
                 embed=embed,
                 view=ConfirmView(

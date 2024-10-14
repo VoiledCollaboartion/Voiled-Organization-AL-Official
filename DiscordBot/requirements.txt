@@ -1,1 +1,2 @@
 discord.py==2.3.2
+captcha==0.6.0

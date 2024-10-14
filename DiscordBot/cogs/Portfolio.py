@@ -7,7 +7,7 @@ from discord import Attachment, Embed, Interaction, app_commands
 from discord.ext import commands
 
 sys.path.append("setup")
-from setup import PREMIUM_ROLE_NAME, guild_id
+from setup import GUILD_ID, PREMIUM_ROLE_NAME
 
 pdb_path = "databases/portfolios.db"
 
@@ -244,7 +244,7 @@ class Portfolio(commands.Cog):
         x: str = None,
         upwork: str = None,
     ):
-        if interaction.guild.id is not guild_id:
+        if interaction.guild.id is not GUILD_ID:
             return
         # Check if the user has the required role
         required_role = discord.utils.get(
